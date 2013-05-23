@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/My97DatePicker/WdatePicker.js"/>
+<script>
+$(function(){
+$('.editpic').click(function(){
+	$('#file').after('<br/><input type="file" name="l_logo"/><br/');
+})
+})
+</script>
+</head>
+<body>
+<div id="main">
+	<div class="title">首页栏目</div>
+	<div class="content">
+<form method="post" action="{:U('addData')}">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" class="mytab">
+    <tr>
+      <td colspan="3" class="tit">添加子栏目</td>
+      </tr>
+    <tr>
+      <td width="189" align="center">上级栏目<td width="579"><span style="font-size:14px; font-weight:900"><if condition="$class neq ''">{$class.pname}<else/>{$list.name}</if></span></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">子栏目名为</td>
+      <td width="579"><input type="text" name="name" class="inp" value="{$class.name}"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">子栏目URL</td>
+      <td width="579"><input type="text" name="url" class="inp" value="{$class.url}"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">打开方式</td>
+      <td><select name="target">
+        <option <php>echo ($class['target']=='_self') ? 'selected=selected' : ''</php> value="_self">当前窗口</option>
+        <option <php>echo ($class['target']=='_self') ? 'selected=selected' : ''</php> value="_blank">新窗口</option>
+      </select></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">排序</td>
+      <td><input type="text" name="px" class="inp" value="{$class.px}"/></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189">&nbsp;</td>
+      <td width="579"><input type="submit" class="sub" value="保存"/>&nbsp;
+        <input name="button" type="button" onClick="javascript:history.back()" value="返回上一步"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+  </table>
+  <input type="hidden" name="id" value="{$list.id}"/>
+  <if condition="$class neq ''"><input type="hidden" name="act" value="edit"/></if>
+</form>
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">技巧</td>
+     </tr>
+	 <tr>
+	 	<td>√ 栏目图标建议为 长112 * 宽67 </td>
+	 </tr>
+	 <tr>
+	 	<td>√ 排序可以接受整数值, 值越小,越靠前 </td>
+	 </tr>
+	 	 <tr>
+	 	   <td>&nbsp;</td>
+      </tr>
+  </table>
+	</div>
+</div>
+</body>
+</html>
+

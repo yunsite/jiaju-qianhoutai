@@ -1,0 +1,112 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<css href="__PUBLIC__/css/public.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+//重置条件
+$('input:reset').click(function(){
+	location.href="__URL__";
+})
+
+//用户批量删除时,得到所选所有ID,用,号连接发送到控制器
+$('[name=delall]').click(function(){
+	var ids = '';
+	var pics = '';
+	nums = 0;
+	$('[name=del]').each(function(){	
+		if ($(this).attr('checked')=='checked'){
+			ids+=$(this).attr('id')+',';
+			pics+=$(this).attr('class')+',';
+			nums = nums+1;
+		}		
+	})
+	
+	if (confirm('你确定要删除这 '+nums+' 条记录吗')){
+		location.href='__URL__/del?id='+ids+'&pics='+pics;
+	}	
+})
+
+})	
+</script>
+</head>
+<style type="text/css">
+b{color:red}
+img{border:0}
+a:link,a:visited{color:#192E32; font-weight:bold}
+a:hover{background:#278296}
+</style>
+<body>
+<div id="main">
+	<div class="title"><span class="tit">友情链接</span>管理</div>
+	<div class="content">
+<span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="mytab">
+  <tr>
+    <td colspan="8" class="tit">友情链接管理</td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td colspan="8" align="center">
+      <form action="__URL__" method="get">
+	  	按<select name="search_bzb">
+			<option <php>echo ($_GET['search_bzb']=='l_name') ? 'selected=selected' : ""; </php> value="l_name">网站名称</option>
+			<option <php>echo ($_GET['search_bzb']=='l_url') ? 'selected=selected' : ""; </php> value="l_url">URL地址</option>
+		</select>
+		<input type="text" name="bzb" class="inp" value="{$Think.get.bzb}" style="width:200px;"/>
+		按<select name="search_tdb">
+			<option <php>echo ($_GET['search_tdb']=='l_time') ? 'selected=selected' : ""; </php> value="l_time">添加时间</option>
+		</select>
+		<select name="order">
+			<option <php>echo ($_GET['order']=='desc') ? 'selected=selected' : ""; </php> value="desc">降序</option>
+			<option <php>echo ($_GET['order']=='asc') ? 'selected=selected' : ""; </php> value="asc">升序</option>
+		</select>
+		<select name="sh">
+			<option value="status">状态</option>
+			<option <php>echo ($_GET['sh']=='1') ? 'selected=selected' : ""; </php> value="1">正常</option>		
+			<option <php>echo ($_GET['sh']=='0') ? 'selected=selected' : ""; </php> value="0">已停用</option>	
+			<option <php>echo ($_GET['sh']=='2') ? 'selected=selected' : ""; </php> value="2">已过期</option>			
+		</select>
+		<input type="submit" name="search" value="查找"/>
+		<input type="reset" value="刷新\重置"/>
+	  </form>	  </td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td width="7%"><input type="checkbox" name="alldel"/>全选</td>
+    <td width="18%">网站名称</td>
+    <td width="15%">链接LOGO</td>
+    <td width="16%">URL地址</td>
+    <td width="11%">状态</td>
+    <td width="16%">开通时间-&gt;到期时间</td>
+    <td width="9%" align="left">操作</td>
+    <td>申请人</td>
+	</tr>
+<if condition="$list neq ''">
+<volist name="list" id="vo"> 
+  <tr>
+    <td width="7%"><input type="checkbox" name="del" id="{$vo.id}" class="{$vo.l_logo}"/></td>
+    <td width="18%">{$vo.l_name}</td>
+    <td width="15%" style="padding:2px;"><img src="__PUBLIC__/Uploads/links/s_{$vo.l_logo}"/></td>
+    <td width="16%"><a href="{$vo.l_url|ishttp}" title="{$vo.l_name}" target="_blank">{$vo.l_url|ishttp}</a></td>
+    <td width="11%">{$vo.l_status|status='已停用-正常-已过期'}</td>
+    <td width="16%">{$vo.l_time|date='Y-m-d',###}&nbsp;--&nbsp;{$vo.l_overtime|date='Y-m-d',###}</td>
+    <td width="9%" align="left"><a href="__URL__/addlink/id/{$vo.id}/act/edit"><img src="__PUBLIC__/images/icon_edit.gif" title="查看|编辑"/>&nbsp;<a href="__URL__/del/id/{$vo.id}/pics/{$vo.l_logo}/act/one"><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" onClick="return confirm('您确定要将它移到回收站吗')"/></a></td>
+    <td>管理员</td>
+	</tr>
+</volist>
+  <tr>
+  	<td><input type="button" name="delall" value="批量删除" style="display:none"></td>
+  	<td colspan="8" align="center"><div class="yahoo2">{$page}</div></td>
+  </tr>
+<else/>
+<Tr align="center"><td colspan="8">没有查询到任何结果...</td></Tr>
+</if>
+</table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

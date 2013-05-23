@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config.webname}->用户留言</title>
+<meta name="Keywords" content="{$config.webkeys}">
+<meta name="Description" content="{$config.webdesc}">
+<include file="./home/tpl/public/cssjs.html"/>
+<script src="__PUBLIC__/js/jquery-1.7.1.js"></script>
+<script src="__PUBLIC__/art/jquery.artDialog.js?skin=green"></script>
+<script src="__PUBLIC__/art/plugins/iframeTools.js"></script>
+<script src="__PUBLIC__/xheditor/xheditor-1.1.14-zh-cn.min.js"></script>
+<script>
+$(function(){
+
+//初始化编辑器
+$('#elm5').xheditor({tools:'Cut,Copy,Paste,Pastetext,|,Source,Fullscreen'});
+
+//更换验证码
+	$('img.yzm').click(function(){
+		var id = $(this).attr('id');
+		$(this).attr('src',id+'?'+Math.random());
+	})
+
+//表单验证
+$('form').submit(function(){
+	var isSubmit = true;
+	$('.check').each(function(){
+		if ($(this).val()==''){
+			isSubmit = false;
+		}
+	})
+	if (!isSubmit){
+		art.dialog.alert('资料未完善');
+	}
+	return isSubmit;
+})
+})
+</script>
+<script>
+	$(document).ready(function(){
+		$(".showlist dt").hover(
+			function(){
+				$(this).toggleClass('hover');
+				$(this).fadeTo("slow", 0.5);
+			},
+			function(){
+				$(this).removeClass('hover');
+				$(this).fadeTo("slow", 1.0);
+			}
+		);
+	});
+	jQuery(document).ready(function(){
+		jQuery('.lightbox').lightbox();
+	});
+	// 跟随屏幕滑动的在线咨询
+	$(document).ready(function(){
+		$( '#qq' ).scrollFollow();
+	});
+</script>
+<style type="text/css">
+.inp{width:200px; font-size:12px; height:20px; line-height:20px; font-family:Arial, Helvetica, sans-serif}
+</style>
+</head>
+
+<body class="body_show6">
+<!--头部-->
+﻿<div id="headerbox">
+	<div id="top">
+    	<div class="top_link">
+        	<ul>
+				<li><a onclick="window.external.AddFavorite(location.href,document.title)" style="cursor:hand">加入收藏</a></li>
+        		<li><a href="__APP__">网站首页</a></li>
+        	</ul>
+    	</div>
+	</div>
+    <div id="navbox">
+        <div id="logo"><a href="/"><img src="__PUBLIC__/Uploads/weblogo/{$config.weblogo}" alt="{$config.webname}"/></a></div>
+        <div class="logo"></div>
+		<!--首页栏目-->
+			<div id="mainnavbox">	
+				<volist name="cate" id="vo">
+					<if condition="$vo.lmlogo neq ''">
+						<div class="navbox nav_5">
+							<ul>
+								<li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.name}"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67" alt="{$vo.name}"/></a></li>
+								<volist name="cate" id="vo2">
+									<php>
+										if ($vo['id'] == $vo2['pid']){
+											echo "<li><a href='".$vo2['url']."' title='".$vo2['name']."'>".$vo2['name']."</a></li>";
+										}									
+									</php>
+								</volist>
+							</ul>
+						</div>
+					</if>
+				</volist>
+    		</div>
+  	</div>
+</div>
+<!--中间-->
+<div id="Flashbox"></div>
+<div style="width:960px; margin:0 auto;">
+	<ul class="subnav">
+		<li class="index">您的当前位置：<a href="__APP__">网站首页</a><span>&gt;</span></li>
+		<li><a href="{:U('index')}">留言板</a></li>
+	</ul>
+</div>
+<div id="sb_title" class="sb_show">
+	<a name="msg"></a>
+	<h2>用户留言</h2>
+</div>
+<div id="content">
+	<!--浮动QQ-->
+		<include file="./home/tpl/public/qq.html"/>
+		<div class="weibo1"></div>
+	</div>
+    <!--留言中心-->
+    <div id="Showlistbox" style="border:1px solid #ccc">
+		<form method="post" action="__URL__/addData">
+		<table width="100%" border="0" cellpadding="0" cellspacing="6">
+		  <tr>
+			<td width="14%" align="right">姓名</td>
+			<td width="86%"><input name="m_name" type="text" class="inp" maxlength="4"/> 
+			  * 请输入真实姓名,限4位 </td>
+		  </tr>
+		  <tr>
+			<td align="right">电话</td>
+			<td><input name="m_tel" type="text" class="inp" maxlength="30"/> 
+			  * 请填写正确的电话,方便我们与您联系 [手机、座机任选其一] </td>
+		  </tr>
+		  <tr>
+		    <td align="right">邮箱</td>
+		    <td><input name="m_email" type="text" class="inp" maxlength="40"/></td>
+	      </tr>
+		  <tr>
+			<td align="right">标题</td>
+			<td><input name="m_tit" type="text" class="inp" style="width:300px;" maxlength="50"/> 
+			  * </td>
+		  </tr>
+		  <tr>
+		    <td align="right">正文</td>
+		    <td><textarea cols="80" rows="10" id="elm5" name="m_con" class="check"></textarea>
+		      <br/><br/>
+	        <span name="checkInfo"><strong style="color:red;">限1000</strong></span></td>
+	      </tr>
+		  <tr>
+		    <td align="right">验证码</td>
+		    <td><input name="yzm" type="text"  maxlength="4" style="width:80px; height:20px; vertical-align:middle" class="check"/>
+		    &nbsp;
+	        <img src="__URL__/verify" class="yzm" id="__URL__/verify" style="vertical-align:middle"/>&nbsp;</td>
+	      </tr>
+		  <tr>
+		    <td>&nbsp;</td>
+		    <td align="left"><input type="submit" value="提交留言"/><input type="reset" value="重置"/></td>
+	      </tr>
+	  </table>
+	  </form>
+	</div>
+</div>
+<!--页脚-->
+<include file="./home/tpl/public/foot.html"/>
+</body>
+</html>

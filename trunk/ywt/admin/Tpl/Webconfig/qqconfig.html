@@ -1,0 +1,101 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+	$('.inp').each(function(){
+		val = $(this).val();
+		if (val == ''){
+			$(this).val('000000');
+		}
+		if (val != 000000){
+			$(this).css('color','green');
+		}
+	}).click(function(){
+		if ($(this).val() == '000000'){
+			$(this).val('');
+		}
+	}).blur(function(){
+		if ($(this).val() == ''){
+			$(this).val('000000');
+		}
+		if ($(this).val()!='000000'){
+			$(this).css('color','green');
+		}
+	})
+})
+</script>
+<style type="text/css">
+.inp{color:#999999; padding-left:6px;}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">网站配置</div>
+	<div class="content">
+<span>
+<form method="post" action="{:U('editQq')}">
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+  <tr>
+    <td colspan="4" class="tit">客服QQ管理</td>
+    </tr>
+  <tr>
+    <td width="8%">&nbsp;</td>
+    <td width="20%" align="center"><b>类型</b></td>
+    <td width="28%" align="center"><b>QQ号码</b></td>
+    <td width="44%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·客服<input type="hidden" name="kf1" value="kf1"/></td>
+    <td><input type="text" class="inp" name="kf11" value="{$list.kf11|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·客服<input type="hidden" name="kf2" value="kf2"/></td>
+    <td><input type="text" class="inp" name="kf22" value="{$list.kf22|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·客服<input type="hidden" name="kf3" value="kf3"/></td>
+    <td><input type="text" class="inp" name="kf33" value="{$list.kf33|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·客服<input type="hidden" name="kf4" value="kf4"/></td>
+    <td><input type="text" class="inp" name="kf44" value="{$list.kf44|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·投诉<input type="hidden" name="ts1" value="ts1"/></td>
+    <td><input type="text" class="inp" name="ts11" value="{$list.ts11|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td align="center">·建议<input type="hidden" name="jy1" value="jy1"/></td>
+    <td><input type="text" class="inp" name="jy11" value="{$list.jy11|default=''}"/></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><input type="submit" value="保存">&nbsp;<input type="button" onClick="history.back()" value="返回上一步"></td>
+    <td></td>
+  </tr>
+</table>
+
+</form>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

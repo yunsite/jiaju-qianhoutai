@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'name', 2 => 'class', 3 => 'address', 4 => 'qywh', 5 => 'desc', 6 => 'gywm', 7 => 'tel', 8 => 'email', 9 => 'copyright', 10 => 'gspic', 11 => 'ygpic', 12 => 'honour', '_autoinc' => true, '_pk' => 'id', ); ?>

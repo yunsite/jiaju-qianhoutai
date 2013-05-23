@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>网站后台登录</title>
+<link href="__PUBLIC__/css/public.css" rel="stylesheet" type="text/css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script>
+$(function(){
+	$('img.yzm').click(function(){
+		var id = $(this).attr('id');
+		$(this).attr('src',id+'?'+Math.random());
+	})
+
+	/*表单验证*/
+	$('form').submit(function(){
+		var uname = $('input[name=uname]').val();
+		var upwd = $('input[name=upwd]').val();
+		var yzm = $('input[name=yzm]').val();
+
+		$.post('__URL__/check',{yzm:yzm,uname:uname,upwd:upwd,isopenjs:true},function(data){
+			$('.info').text(data);
+			$('.info').slideDown(1000);
+			if (data == '正在登录..'){
+				$('.info').css({'background':'#66cc66','border':'1px solid #336633','color':'#eee'});
+				$('.info').slideUp(1000,function(){
+					//document.myform.submit();
+					location.href = "Index/index";
+				});	
+			}else{
+					var id = $('img.yzm').attr('id');
+					$('img.yzm').attr('src',id+'?'+Math.random());
+			}
+		})	
+		return false;
+	})
+})
+</script>
+<style>
+body{background:#9CDCF9; padding-top:160px}
+#login{width:681px; height:420px; margin:0 auto}
+#top{height:259px;}
+#top #left{width:353px; height:259px; float:left;}
+#top #center{width:190px; height:179px; float:left; background-image:url(__PUBLIC__/admin/loginImages/login_2.gif);padding-top:80px; position:relative}
+#top #right{width:133px; height:259px; float:left}
+li{line-height:26px; height:26px; color:#2B90C1; width:190px;}
+li span{width:60px; float:left; text-align:right;}
+input{vertical-align:middle; margin:0; padding:0}
+input.box{width:110px; border:1px solid #70CBFB;height:18px; line-height:18px; font-family:Arial, Helvetica, sans-serif}
+input.login{background-image:url(__PUBLIC__/admin/loginImages/login_5.gif)}
+#lg{margin-top:30px; text-align:center;}
+.info{font-weight:900;text-align:center; height:22px; line-height:22px; position:absolute; top:50px; display:none; border:1px solid red; background:pink}
+img{vertical-align:middle; }
+</style>
+</head>
+<form action="{:U('check')}" method="post" name="myform">
+	<div id="login">
+		<div id="top">
+			<div id="left"><img src="__PUBLIC__/admin/loginImages/login_1.jpg"/></div>
+			<div id="center">
+			<ul>
+				<li class="info"></li>
+				<li><span>用户名&nbsp;</span><input type="text" name="uname" class="box"/></li>
+				<li><span>密码&nbsp;</span><input type="password" name="upwd" class="box"/></li>
+				<!-- <li><span>验证码&nbsp;</span><input type="text" name="yzm" class="box" id="yzm" style="width:50px;"/>&nbsp;</span><img src="__URL__/verify" class="yzm" id="__URL__/verify"/></li> -->
+			</ul>
+			<div id="lg"><input type="image" src="__PUBLIC__/admin/loginImages/login_bj.jpg"/><img src="__PUBLIC__/admin/loginImages/login_bj2.jpg" class="c"/></div>
+			</div>
+			<div id="right"><img src="__PUBLIC__/admin/loginImages/login_3.gif"/></div>
+		</div>
+		<div id="foot"><img src="__PUBLIC__/admin/loginImages/login_4.gif"/></div>
+	</div>
+</form>
+<body>
+</body>
+</html>

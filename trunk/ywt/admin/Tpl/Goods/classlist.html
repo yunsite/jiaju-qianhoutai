@@ -1,0 +1,135 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+	$('img[name=del]').click(function(){
+		if (confirm('您确定要删除它吗')){
+			location.href="__URL__/delLm/id/"+$(this).attr('id');
+		}
+	})
+
+//单击文字即可重命名
+$('.oldname').click(function(){
+		var val = $(this).html();
+		var id = $(this).attr('id');
+		var name = $(this).attr('class');
+		var thisObj = $(this);
+		var inputObj = $(this).nextAll().eq(0);
+		
+		inputObj.show().focus().val(val);
+		$(this).hide();
+		
+		inputObj.keyup(function(event){
+			var keycode = event.which;
+			var newval = $(this).val();
+			var id = $(this).attr('id');
+			if (keycode == 13){
+				thisObj.show().text(newval);
+				$.post("__URL__/editClassName",{id:id,newval:newval});
+				$(this).hide();
+			}
+		})
+		
+		inputObj.blur(function(){
+			thisObj.show();
+			$(this).hide();
+		})
+})
+
+$('.test').click(function(){
+	alert($(this).html());
+})
+
+//添加子栏目
+$('[name=add]').click(function(){
+	var id = $(this).attr('id');
+	var inputObj = $('input[name='+id+']');
+	
+	inputObj.show().focus();
+	inputObj.click(function(){
+		if ($(this).val() == '子栏目名为') $(this).val('');
+	})
+	
+	inputObj.keyup(function(event){
+		var keycode = event.which;
+		if (keycode == 13){
+			pid = $(this).attr('name');
+			name2 = $(this).val();
+			if (name!=''){
+				location.href="__URL__/addCate?name="+name2+"&pid="+pid;	
+			}
+			$(this).hide();
+		}
+	})
+	
+	inputObj.blur(function(){
+		$(this).hide()
+	})
+})
+
+})
+</script>
+</head>
+<style type="text/css">
+#main .search{width:98%; height:30px; line-height:30px; border: 1px solid #BBDDE5; background:#F4FAFB; margin-top:2px;}
+img{margin:0 4px; vertical-align:middle}
+</style>
+<body>
+<div id="main">
+	<div class="title">商品管理-&gt;商品分类</div>
+	<div class="content">
+	<div class="search"><img src="__PUBLIC__/images/icon_search.gif" style="margin:4; vertical-align:middle"/>
+	商品分类
+	</div>
+<span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:2px;" class="mytab">
+  <tr style="background:#BBDDE5" id="h">
+    <td width="14%" align="center">&nbsp;</td>
+    <td width="43%" align="center">分类名称</td>
+    <td width="8%" align="center">数量单位</td>
+    <td width="35%" align="left">操作</td>
+    </tr>
+<tr><td colspan="3"><img src="__PUBLIC__/images/menu_minus.gif"/><b>产品根栏目</b><input type="text" name="0" style="display:none"/></td><td><img src="__PUBLIC__/images/add.png" title="添加子栏目" name="add" id="0"/></td></tr>
+<if condition="$list neq ''">
+<volist name="list" id="vo">
+  <tr class="newtr">
+    <td width="14%" valign="middle">&nbsp;</td>
+    <td width="43%" valign="middle">
+		<php>
+			for($i=0;$i<$vo['count'];$i++){
+			echo '<div style="width:26px; height:30px;float:left;"></div>';
+		}</php>
+			<img src="__PUBLIC__/images/menu_minus.gif" style="margin-top:10px; float:left"/><span class="oldname">{$vo.name}</span>
+			<input type="text" style="display:none" id="{$vo.id}"/>
+			<input type="text" name="{$vo.id}" style="display:none; color:#999999" value="子栏目名为"/>
+		</td>
+    <td valign="middle">件</td>
+    <td valign="middle"><img src="__PUBLIC__/images/add.png" title="添加子栏目" name="add" id="{$vo.id}"/><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" name="del" id="{$vo.id}"/></td>
+    </tr>
+</volist>
+</if>
+</table>
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">使用技巧</td>
+     </tr>
+	 <tr>
+	 	<td>√如何重命名： 单击栏目名称即可更改值,更改后,按回车键保存，否则不保存!</td>
+	 </tr>
+	 	 <tr>
+	 	<td>√如何添加栏目和子栏目： 找到对应的栏目,单击后面的<img src="__PUBLIC__/images/add.png"/>图标,即可在该栏目下添加子栏目,回车键保存 </td>
+	 </tr>
+	 	 <tr>
+	 	<td></td>
+	 </tr>
+  </table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

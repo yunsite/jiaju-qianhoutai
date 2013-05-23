@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script src="__PUBLIC__/xheditor/xheditor-1.1.14-zh-cn.min.js"></script>
+<script>
+$(function(){
+$('#elm3').xheditor({skin:'o2007silver'});
+})
+</script>
+<style type="text/css">
+td{ border:1px solid #EEF8F9}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">关于我们</div>
+	<div class="content">
+	<form method="post" action="{:U('addGywm')}">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0">
+ 	<tr>
+		<td height="30" colspan="2" class="tit">关于我们</td>
+      </tr>
+	<tr>
+	  <td height="30">&nbsp;</td>
+	  <td height="30">您可以填写公司的基本信息联系方式,便于客户能够联系到您 </td>
+	  </tr>
+	<tr>
+		<td width="13%" height="30">&nbsp;</td>
+	    <td width="87%" height="30"><textarea name="gywm" cols="110" rows="10"  id="elm3">{$list.gywm}</textarea></td>
+	</tr>
+	<tr>
+	  <td height="30">&nbsp;</td>
+	  <td height="30"><input type="submit" value="保存"></td>
+	</tr>
+  </table>
+  </form>
+	</div>
+</div>
+</body>
+</html>
+
+

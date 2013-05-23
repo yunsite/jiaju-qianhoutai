@@ -1,0 +1,143 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+	$('img[name=del]').click(function(){
+		if (confirm('您确定要删除它吗')){
+			location.href="__URL__/delLm/id/"+$(this).attr('id');
+		}
+	})
+
+//单击文字即可重命名
+$('.oldname').click(function(){
+		var val = $(this).html();
+		var id = $(this).attr('id');
+		var name = $(this).attr('class');
+		var thisObj = $(this);
+		var inputObj = $(this).nextAll().eq(0);
+		
+		inputObj.show().focus().val(val);
+		$(this).hide();
+		
+		inputObj.keyup(function(event){
+			var keycode = event.which;
+			var newval = $(this).val();
+			var id = $(this).attr('id');
+			if (keycode == 13){
+				thisObj.show().text(newval);
+				$.post("__URL__/editClassName",{id:id,newval:newval});
+				$(this).hide();
+			}
+		})
+		
+		inputObj.blur(function(){
+			thisObj.show();
+			$(this).hide();
+		})
+})
+
+$('.test').click(function(){
+	alert($(this).html());
+})
+
+//添加子栏目
+$('[name=add]').click(function(){
+	var id = $(this).attr('id');
+	var inputObj = $('input[name='+id+']');
+	
+	inputObj.show().focus();
+	inputObj.click(function(){
+		if ($(this).val() == '子栏目名为') $(this).val('');
+	})
+	
+	inputObj.keyup(function(event){
+		var keycode = event.which;
+		if (keycode == 13){
+			pid = $(this).attr('name');
+			name2 = $(this).val();
+			if (name!=''){
+				location.href="__URL__/addCate?name="+name2+"&pid="+pid;	
+			}
+			$(this).hide();
+		}
+	})
+	
+	inputObj.blur(function(){
+		$(this).hide()
+	})
+})
+
+})
+</script>
+</head>
+<style type="text/css">
+#main .search{width:98%; height:30px; line-height:30px; border: 1px solid #BBDDE5; background:#F4FAFB; margin-top:2px;}
+img{margin:0 4px; vertical-align:middle}
+</style>
+<body>
+<div id="main">
+	<div class="title">首页栏目</div>
+	<div class="content">
+    <span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:2px;" class="mytab">
+  <tr style="background:#BBDDE5" id="h">
+    <td width="14%" align="center"><img src="__PUBLIC__/images/menu_minus.gif"/><b>根栏目图标</b></td>
+    <td width="25%" align="center">栏目名称</td>
+    <td width="28%" align="center">url地址</td>
+    <td width="5%" align="center">排序</td>
+    <td width="13%" align="center">打开方式</td>
+    <td width="15%" align="center">操作</td>
+  </tr>
+ <volist name="list" id="vo">
+  <tr class="newtr">
+    <td width="14%" valign="middle">&nbsp;
+      <if condition="$vo.lmlogo neq ''"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67"/></if></td>
+    <td width="25%" valign="middle">&nbsp;
+	<php>
+		$count = count(explode('-',$vo['path']));
+		if ($count>=2){
+			for($i=0;$i<$count;$i++){
+				echo '&nbsp;&nbsp;&nbsp;&nbsp;';
+			}
+			echo $vo['name'];
+		}else{
+			echo '<strong style="color:#000000">'.$vo['name'].'</strong>';
+		}
+	</php>
+	</td>
+    <td valign="middle">&nbsp;{$vo.url}</td>
+    <td valign="middle">&nbsp;{$vo.px}</td>
+    <td valign="middle">&nbsp;{$vo.target}&nbsp;[<php>echo ($vo['target']=='_blank') ? '新窗口' : '当前窗口'</php>]</td>
+    <td valign="middle"><a href="__URL__/addzcate/pid/{$vo.id}">添加子栏目</a>&nbsp;&nbsp;<a href="__URL__/editlm/id/{$vo.id}/class/{$count}">修改</a>&nbsp;&nbsp;<a href="__URL__/delCate/id/{$vo.id}" onClick="return confirm('您确定要将它移到回收站吗')">删除</a></td>
+  </tr>
+ </volist>
+<if condition="$vo.id eq ''">
+	<tr>
+		<td colspan="6" align="center">暂时没有栏目,请&nbsp;<a href="__URL__/addcate">创建</a></td>
+	</tr>
+</if>
+</table>
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">使用技巧</td>
+     </tr>
+	 <tr>
+	 	<td>√ 添加网站根栏目: 在左侧的菜单栏中,栏目管理->添加栏目 即可! </td>
+	 </tr>
+	 	 <tr>
+	 	<td>√url地址规则:"/"代表网站根栏目.添加栏目比较复杂,请联系官方技术人员 </td>
+	 </tr>
+	 	 <tr>
+	 	<td></td>
+	 </tr>
+  </table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

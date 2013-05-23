@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config.webname}->产品详情</title>
+<meta name="Keywords" content="{$config.webkeys}">
+<meta name="Description" content="{$config.webdesc}">
+<include file="./home/tpl/public/cssjs.html"/>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.buttons').hover(
+		function(event){
+			$(this).addClass('hover');
+			var $txt=$(this).text();
+			$('<span class="showtip">切换至'+$txt+'查看 </span>').appendTo($(this));
+		},
+		function(){
+			$(this).removeClass('hover');
+			$('.showtip').remove();
+		}
+		
+	);
+	//
+	jQuery(document).ready(function(){
+		jQuery('.lightbox').lightbox();
+	});
+	$('.prview').addClass('cur2');
+});
+</script>
+</head>
+
+<body class="body_show13">
+<!--头部-->
+﻿<div id="headerbox">
+	<div id="top">
+    	<div class="top_link">
+      		<ul>
+				<li><a onclick="window.external.AddFavorite(location.href,document.title)" style="cursor:hand">加入收藏</a></li>
+        		<li><a href="__APP__">网站首页</a></li>
+      		</ul>
+    	</div>
+	</div>
+    <div id="navbox">
+        <div id="logo"><a href="/"><img src="__PUBLIC__/Uploads/weblogo/{$config.weblogo}" alt="{$config.webname}"/></a></div>
+        <div class="logo"></div>
+		<!--首页栏目-->
+        <div id="mainnavbox">
+		<!--[if lt IE 7]>
+		<script type="text/javascript" src="/js/unitpngfix.js"></script>
+		<![endif]--> 
+				<volist name="cate" id="vo">
+					<if condition="$vo.lmlogo neq ''">
+						<div class="navbox nav_5">
+							<ul>
+								<li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.name}"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67" alt="{$vo.name}"/></a></li>
+								<volist name="cate" id="vo2">
+									<php>
+										if ($vo['id'] == $vo2['pid']){
+											echo "<li><a href='".$vo2['url']."' title='".$vo2['name']."'>".$vo2['name']."</a></li>";
+										}									
+									</php>
+								</volist>
+							</ul>
+						</div>
+					</if>
+				</volist>
+    		</div>
+    </div>
+</div>
+<!--中间部分-->
+<div id="Flashbox"></div>
+<div style="width:960px; margin:0 auto;">
+	<ul class="subnav">
+		<li class="index">您的当前位置：<a href="__APP__">网站首页</a><span>&gt;</span></li>
+		<li><a href="{:U('index')}">产品中心</a><span>&gt;</span></li>
+		<li>{$goods.goods_name}</li>
+	</ul>
+</div>
+<div id="sb_title" class="sb_show">
+	<h2>{$goods.goods_name}</h2>
+</div>
+<div class="view_title" >
+	<if condition="$goods neq ''">
+	<div class="title_left" style=" width:100%; border:1px solid #ccc">
+		<dl class="title_name">
+			<dt>产品名称：{$goods.goods_name}<if condition="$goods.goods_dz gt 0"><img src="__PUBLIC__/images/tj.gif"/></if></dt>
+			<dd><br>
+			所属分类：{$goods.goods_class}<br>
+			货号：{$goods.goods_num}
+			上架时间：{$goods.goods_addtime|date='Y-m-d H:i:s',###}
+			库存：{$goods.goods_nums} 件<br/>
+			<if condition="$goods.market_price neq 0.00">市场价&nbsp;&nbsp;<s>{$goods.market_price}</s><br></if>	
+			本店原价：{$goods.shop_price}<br>	
+			该商品：<if condition="$goods.goods_dz gt 0"><span style="color:green; font-size:14px">打折</span><else/>不打折</if><br/>
+			打&nbsp;{$goods.goods_dz}&nbsp;折后只需：<strong style="color:red">{$goods.goods_dzh}</strong>&nbsp;元</br>
+			商品描述：<span style="line-height:25px; border-bottom:1px solid #ccc">{$goods.goods_desc}</span><br/>
+			<br>
+			</dd>
+		</dl>
+	</div>
+</div>
+<div id="Showlistbox" class="listbox">
+	<div id="bigPic">
+				<php>
+				$p = rtrim($goods['goods_pics'],'-');
+				$p = explode('-',$p);
+				$b = 'block';
+				foreach($p as $pic){
+					echo '<img  style="display:'.$b.';opacity: 1; z-index: 1; width:720px; height:540px;" src="__PUBLIC__/Uploads/goods/'.$pic.'"/>';
+					$b = 'none';
+				}
+			</php>		
+	</div>
+	<div id="smallPic">
+		<ul id="thumbs">
+				<php>
+				$pics = rtrim($goods['goods_pics'],'-');
+				$pics = explode('-',$pics);
+				$i = 1;
+				$a = 'active';
+				foreach($pics as $pic){
+					echo '<li class="'.$a.'" rel="'.$i.'"><img src="__PUBLIC__/Uploads/goods/'.$pic.'" title="'.$goods['goods_name'].'"/></li>';
+					$i++;
+					$a ='';
+				}
+			</php>			
+      	</ul>
+	</div>
+</div>
+	<else/>
+		<include file="./home/tpl/public/nodata.html"/>
+	</if>
+	<Br/>
+	</div>
+<!--页脚-->
+<include file="./home/tpl/public/foot.html"/>
+<!---->
+<div style="position: fixed; top: 0px; left: 0px; opacity: 0.6; display: none; z-index: 6999;" id="1349658713479" class="jquery-lightbox-overlay"></div>
+<div style="position: absolute; z-index: 7000; top: -999px; left: -999px;" class="jquery-lightbox-move">
+	<div class="jquery-lightbox jquery-lightbox-mode-image">
+        <div class="jquery-lightbox-border-top-left"></div>
+        <div class="jquery-lightbox-border-top-middle"></div>
+        <div class="jquery-lightbox-border-top-right"></div>
+        <a class="jquery-lightbox-button-close" href="#close"><span>Close</span></a>
+        <div class="jquery-lightbox-navigator">
+            <a class="jquery-lightbox-button-left" href="#"><span>Previous</span></a>
+            <a class="jquery-lightbox-button-right" href="#"><span>Next</span></a>
+        </div>
+        <div class="jquery-lightbox-buttons">
+            <div class="jquery-lightbox-buttons-init"></div>
+            <a class="jquery-lightbox-button-left" href="#"><span>Previous</span></a>
+            <a class="jquery-lightbox-button-max" href="#"><span>Maximize</span></a>
+            <div class="jquery-lightbox-buttons-custom"></div>
+            <a class="jquery-lightbox-button-right" href="#"><span>Next</span></a>
+            <div class="jquery-lightbox-buttons-end"></div>
+        </div>
+        <div class="jquery-lightbox-background"></div>
+        <div class="jquery-lightbox-html"></div>
+        <div class="jquery-lightbox-border-bottom-left"></div>
+        <div class="jquery-lightbox-border-bottom-middle"></div>
+        <div class="jquery-lightbox-border-bottom-right"></div>
+	</div>
+</div>
+<!--图片切换-->
+<script type="text/javascript">
+	var currentImage;
+	var currentIndex = -1;
+	var interval;
+	function showImage(index){
+		if(index < $('#bigPic img').length){
+			var indexImage = $('#bigPic img')[index]
+			if(currentImage){   
+				if(currentImage != indexImage ){
+					$(currentImage).css('z-index',2);
+					clearTimeout(myTimer);
+					$(currentImage).fadeOut(250, function() {
+						myTimer = setTimeout("showNext()", 3000);
+						$(this).css({'display':'none','z-index':1})
+					});
+				}
+			}
+			$(indexImage).css({'display':'block', 'opacity':1});
+			currentImage = indexImage;
+			currentIndex = index;
+			$('#thumbs li').removeClass('active');
+			$($('#thumbs li')[index]).addClass('active');
+		}
+	}
+	function showNext(){
+		var len = $('#bigPic img').length;
+		var next = currentIndex < (len-1) ? currentIndex + 1 : 0;
+		showImage(next);
+	} 
+	var myTimer;
+	$(document).ready(function() {
+		myTimer = setTimeout("showNext()", 3000);
+		showNext(); //loads first image
+		$('#thumbs li').bind('click',function(e){
+			var count = $(this).attr('rel');
+			showImage(parseInt(count)-1);
+		});
+	});
+</script>
+</body>
+</html>

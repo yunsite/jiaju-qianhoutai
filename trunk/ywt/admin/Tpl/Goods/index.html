@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<css href="__PUBLIC__/css/public.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+//重置条件
+$('input:reset').click(function(){
+	location.href="__URL__";
+})
+//用户批量删除时,得到所选所有ID,用,号连接发送到控制器
+$('[name=delall]').click(function(){
+	var ids = '';
+	nums = 0;
+	$('[name=del]').each(function(){	
+		if ($(this).attr('checked')=='checked'){
+			ids+=$(this).attr('id')+',';
+			nums = nums+1;
+		}		
+	})
+	
+	if (confirm('你确定要删除这 '+nums+' 条记录吗')){
+		location.href="__URL__/delGood?gid="+ids;
+	}	
+})
+})	
+</script>
+<style type="text/css">
+#main .search{width:98%; height:30px; line-height:30px; border: 1px solid #BBDDE5; background:#F4FAFB; margin-top:2px;}
+img{margin:0 2; border:0}
+table{text-align:center}
+select,input{font-size:12px}
+b{color:red}
+.link a:link,.link a:visited{color:#192E32; font-weight:bold}
+.link a:hover{background:#278296}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">商品管理-&gt;商品列表</div>
+	<div class="content">
+	<div class="search" style="height:40; line-height:40px;"><img src="__PUBLIC__/images/icon_search.gif" style="margin:4; vertical-align:middle"/>
+	<form action="__URL__" method="get" style="display:inline; margin:0; padding:0">
+		<select name="search_class" class="inp">
+          <option value="">所有分类</option>
+		  <volist name="cate" id="vo">
+		  <option <php>echo ($_GET['search_class']==$vo['name']) ? 'selected=selected' : "";</php> value="{$vo.name}">
+		  <php>
+		  	for($i=1; $i<$vo['count']; $i++){
+				echo '&nbsp;&nbsp;&nbsp;';
+			}		  </php>
+		  	{$vo.name}</option>
+		  </volist></select>
+	  	&nbsp;<select name="search_bzb">
+			<option <php>echo ($_GET['search_bzb']=='all') ? 'selected=selected' : ""; </php> value="all">所有商品</option>
+			<option <php>echo ($_GET['search_bzb']==10) ? 'selected=selected' : ""; </php> value="10">打折商品</option>
+			<option <php>echo ($_GET['search_bzb']==='0') ? 'selected=selected' : ""; </php> value="0">未打折商品</option>
+		</select>	
+		&nbsp;&nbsp;在<select name="namenum">
+			<option <php>echo ($_GET['namenum']=='goods_name') ? 'selected=selected' : ""; </php> value="goods_name">商品名称</option>
+			<option <php>echo ($_GET['namenum']=='goods_num') ? 'selected=selected' : ""; </php> value="goods_num">货号</option>
+		</select>
+	中搜索:
+	<input type="text" name="key" value="{$Think.get.key}" style="width:200px; height:20px; line-height:20px; border:1px solid #BBDDE5; background:#ffffff"/>
+	&nbsp;按<select name="order">
+			<option <php>echo ($_GET['order']=='goods_addtime') ? 'selected=selected' : ""; </php> value="goods_addtime">上架时间</option>
+			<option <php>echo ($_GET['order']=='goods_dz') ? 'selected=selected' : ""; </php> value="goods_dz">打折率</option>
+			<option <php>echo ($_GET['order']=='') ? 'selected=selected' : ""; </php> value="shop_price">本店价格</option>
+			<option <php>echo ($_GET['order']=='news_djs') ? 'selected=selected' : ""; </php> value="goods_nums">库存量</option>
+		</select>
+		<select name="px">
+			<option <php>echo ($_GET['px']=='desc') ? 'selected=selected' : ""; </php> value="desc">降序</option>
+			<option <php>echo ($_GET['px']=='asc') ? 'selected=selected' : ""; </php> value="asc">升序</option>
+		</select>
+	<input type="submit" name="search" value="查询"/>
+	<input type="reset" value="重置|刷新"/>
+	</form>
+	</div>
+<span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" style="margin-top:2px;" class="mytab">
+  <tr style="background:#BBDDE5" id="h">
+    <td width="6%" align="center"><input type="checkbox" name="alldel"/>全选</td>
+    <td width="25%" align="center">商品名称 [货号] </td>
+    <td width="9%" align="center">所属栏目 </td>
+    <td width="9%" align="center">是否打折</td>
+    <td width="9%" align="center">本店价格</td>
+    <td width="11%" align="center">打折[促销后]</td>
+    <td width="14%" align="center">上架时间</td>
+    <td width="9%" align="center">库存</td>
+    <td width="8%" align="center">操作</td>
+	</tr>
+<volist name="list" id="vo">
+  <tr>
+    <td width="6%"><input type="checkbox" name="del" id="{$vo.id}" class="{$vo.l_logo}"/></td>
+    <td width="25%" align="left"><span class="link"><a href="{:U('addGoods?id=')}{$vo.id}/act/edit" title="{$vo.goods_name}">{$vo.goods_name}&nbsp;[{$vo.goods_num}]</a></span></td>
+    <td width="9%" style="padding:2px;">{$vo.goods_class}</td>
+    <td width="9%"><if condition="$vo.goods_dz ==0"><img src="__PUBLIC__/images/no.gif"/><else/><img src="__PUBLIC__/images/yes.gif"/>&nbsp;{$vo.goods_dz} 折</if></td>
+    <td width="9%"><if condition="$vo.goods_dz != 0"><s>{$vo.shop_price}</s><else/>{$vo.shop_price}</if></td>
+    <td width="11%">￥<b style="color:red">{$vo.goods_dzh}</b></td>
+    <td width="14%">{$vo.goods_addtime|date='Y-m-d H:i',###}</td>
+    <td width="9%">{$vo.goods_nums}</td>
+    <td><a href="{:U('addGoods?id=')}{$vo.id}/act/edit"><img src="__PUBLIC__/images/icon_edit.gif" title="查看|编辑"/></a><a href="__URL__/delGood?gid={$vo.id}"><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" onClick="return confirm('您确定要将它移到回收站吗')"/></a></td>
+	</tr>
+</volist>
+  <tr>
+  	<td><input type="button" name="delall" value="批量删除" style="display:none"></td>
+  	<td colspan="9" align="center"><div class="yahoo2">{$page}</div></td>
+  </tr>
+</table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

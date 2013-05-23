@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/My97DatePicker/WdatePicker.js"/>
+<script>
+$(function(){
+$('.editpic').click(function(){
+	$('#file').after('<br/><input type="file" name="l_logo"/><br/');
+})
+})
+</script>
+</head>
+<body>
+<div id="main">
+	<div class="title">友情链接管理</div>
+	<div class="content">
+<form method="post" action="{:U('addData')}" enctype="multipart/form-data">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" class="mytab">
+    <tr>
+      <td colspan="3" class="tit">添加链接</td>
+      </tr>
+    <tr>
+      <td width="189" align="center">标题
+      <td width="579"><input type="text" class="inp" name="l_name" value="{$list.l_name}"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">链接图标</td>
+      <td width="579"><if condition="$list.l_logo eq ''"><input type="file" name="l_logo"/><else/><img src="__PUBLIC__/Uploads/links/s_{$list.l_logo}"/><a href="javascript:void(0)" class="editpic">更换</a></if><span id="file"></span></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">主页地址</td>
+      <td width="579"><input type="text" class="inp" name="l_url" value="{$list.l_url|default='http://'}"/> 
+      *请勿删除http:// </td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">开通时间</td>
+      <td><if condition="$list.l_time eq ''"><input type="text" class="inp" value="{$Think.now}" disabled="disabled"/><input type="hidden" class="time" name="l_time" value="<php>echo time()</php>"/><else/><input type="text" class="inp" value="{$list.l_time|date='Y-m-d H:i:s',###}" disabled="disabled"/></if></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">到期时间</td>
+      <td><if condition="$list.l_overtime eq ''"><input type="text" class="inp" name="l_overtime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/><else/><input type="text" class="inp" name="l_overtime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="{$list.l_overtime|date='Y-m-d H:i:s',###}"</if></td>
+      <td align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">状态</td>
+      <td width="579"><input type="radio" name="l_status" value="1" checked="checked"/>正常<if condition="$list.act eq 'edit'"><input type="radio" name="l_status" value="0" <php>echo ($list['l_status']==0) ? 'checked=checked' : ''</php> />停用</if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189">&nbsp;</td>
+      <td width="579"><input type="submit" class="sub" value="保存"/>&nbsp;
+        <input name="button" type="button" onClick="javascript:history.back()" value="返回上一步"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+  </table>
+  <if condition="$list.act eq 'edit'"><input type="hidden" name="act" value="edit"/><input type="hidden" name="id" value="{$list.id}"/></if>
+</form>
+	</div>
+</div>
+</body>
+</html>
+

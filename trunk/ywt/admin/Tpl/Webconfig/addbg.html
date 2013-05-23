@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+</head>
+<body>
+<div id="main">
+	<div class="title">网站配置</div>
+	<div class="content">
+<span>
+<form method="post" action="{:U('addBack')}" enctype="multipart/form-data">
+ <table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+ <tr>
+ 	<td colspan="3" class="tit"><p>网页背景管理</p> 	  </td>
+ </tr>
+    <tr>
+      <td width="18%">&nbsp;</td>
+      <td width="9%">图片</td>
+      <td width="73%"><if condition="$list.id eq ''"><input type="file" name="pic"/><else/><img src="__PUBLIC__/images/{$list.pic}" width="200" height="100"/></if></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>排序技巧</td>
+      <td><input type="text" name="px" class="inp" disabled="disabled" value="b1.jpg,b2.jpg,b3.jpg,b4.jpg,b5.jpg"/></td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;<b>↓请务必参考以下方案,否则不能正确显示</b></td>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2"><input type="submit" value="保存">
+        <input type="button" value="返回上一步" onClick="javascript:history.back()"/></td>
+      </tr>
+  </table>
+ {$list.id}{$list.px}{$list.pic}
+  <if condition="$list.id neq ''"><input type="hidden" name="act" value="edit"/><input type="hidden" name="pid" value="{$list.id}"/></if>
+</form>
+
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">配置技巧</td>
+     </tr>
+	 <tr>
+	 	<td>√ 图片宽度建议为 长1920 * 宽550 ,格式为jpg </td>
+	 </tr>
+	 	 <tr>
+	 	<td>√ 请注意!上传文件名只能为b1.jpg 、 b2.jpg 、b3.jpg 、b4.jpg 、b5.jpg ! 并且不要重复</td>
+	 </tr>
+	 	 <tr>
+	 	<td>√ 默认显示顺序为b1,b2,b3.. 如果想更改显示顺序,请更改你图片名,图片数字部份越小,越靠前显示</td>
+	 </tr>
+	 	 <tr>
+	 	   <td>&nbsp;</td>
+      </tr>
+  </table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script src="__PUBLIC__/js/public.js"></script>
+<script>
+$(function(){
+//重置条件
+$('input:reset').click(function(){
+	location.href="__URL__";
+})
+
+//用户批量删除时,得到所选所有ID,用,号连接发送到控制器
+$('[name=delall]').click(function(){
+	var ids = '';
+	nums = 0;
+	$('[name=del]').each(function(){	
+		if ($(this).attr('checked')=='checked'){
+			ids+=$(this).attr('id')+',';
+			nums = nums+1;
+		}		
+	})
+	if (confirm('你确定要删除这 '+nums+' 条记录吗')){
+		location.href="__URL__/delNew?mid="+ids;
+	}	
+})
+
+})	
+</script>
+<style type="text/css">
+a:link,a:visited{color:blue;}
+p a,p a:visited,strong{color:#000000}
+p{display:inline;margin:0; padding:0; color:red; font-weight:900}
+img{border:0}
+a:link,a:visited{color:#192E32;}
+a:hover{background:#278296}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title"><A href="javascript:void(0)" class="del">留言管理</A></div>
+	<div class="content">
+<span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="mytab">
+  <tr>
+    <td colspan="8" class="tit">留言浏览</td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td colspan="8" align="center">
+      <form action="__URL__" method="get">
+		<select name="allmsg">
+			<option value="status">所有留言</option>
+			<option <php>echo ($_GET['allmsg']=='0') ? 'selected=selected' : ""; </php> value="0">未读留言</option>		
+			<option <php>echo ($_GET['allmsg']=='1') ? 'selected=selected' : ""; </php> value="1">已读留言</option>			
+		</select>
+        按
+          <select name="search_bzb">
+			<option <php>echo ($_GET['search_bzb']=='m_tit') ? 'selected=selected' : ""; </php> value="m_tit">留言标题</option>
+			<option <php>echo ($_GET['search_bzb']=='m_name') ? 'selected=selected' : ""; </php> value="m_name">姓名</option>
+		</select>
+		<input type="text" name="bzb" class="inp" value="{$Think.get.bzb}" style="width:200px;"/>
+		按<select name="search_tdb">
+			<option <php>echo ($_GET['search_tdb']=='m_time') ? 'selected=selected' : ""; </php> value="m_time">添加时间</option>
+		</select>
+		<select name="order">
+			<option <php>echo ($_GET['order']=='desc') ? 'selected=selected' : ""; </php> value="desc">降序</option>
+			<option <php>echo ($_GET['order']=='asc') ? 'selected=selected' : ""; </php> value="asc">升序</option>
+		</select>
+		<input type="submit" name="search" value="查找"/>
+		<input type="reset" value="刷新\重置"/>
+	  </form>	  </td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td width="6%"><input type="checkbox" name="alldel"/>全选</td>
+    <td width="10%">姓名</td>
+    <td width="25%">标题</td>
+    <td width="18%">留言时间</td>
+    <td width="8%">电话</td>
+    <td width="15%">邮箱</td>
+    <td width="10%" align="left">留言IP</td>
+    <td width="8%">操作</td>
+  </tr>
+<if condition="$list neq ''">
+<volist name="list" id="vo"> 
+  <tr>
+    <td width="6%"><input type="checkbox" name="del" id="{$vo.m_id}"></td>
+    <td width="10%">{$vo.m_name}</td>
+    <td width="25%"><a href="{:U('readMsg?mid=')}{$vo.m_id}" style="color:#000">{$vo.m_tit|isread=$vo['m_status']}</a></td>
+    <td width="18%">{$vo.m_time|date='Y-m-d H:i:s',###}</td>
+    <td width="8%">{$vo.m_tel}</td>
+    <td width="15%">{$vo.m_email}</td>
+    <td width="10%" align="left">{$vo.m_ip}</td>
+    <td width="8%"><span><a href="{:U('readMsg?mid=')}{$vo.m_id}"><img src="__PUBLIC__/images/icon_edit.gif" title="查看|编辑"/></a>&nbsp;<a href="__URL__/delNew/mid/{$vo.m_id}" onclick="return confirm('您确定要将它移到回收站吗')"><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" /></a></span></td>
+  </tr>
+</volist>
+  <tr>
+  	<td><input type="button" name="delall" value="批量删除" style="display:none"></td>
+  	<td colspan="7" align="center"><div class="yahoo2">{$page}</div></td>
+  </tr>
+<else/>
+<Tr align="center"><td colspan="8">没有查询到任何结果...</td></Tr>
+</if>
+</table>
+</span>
+
+	</div>
+</div>
+</body>
+</html>
+

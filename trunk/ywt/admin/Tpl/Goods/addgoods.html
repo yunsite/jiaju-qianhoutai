@@ -1,0 +1,188 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script type="text/javascript" src="__PUBLIC__/xheditor/xheditor-1.1.14-zh-cn.min.js"></script>
+<js href="__PUBLIC__/My97DatePicker/WdatePicker.js"/>
+<script>
+$(function(){
+//加载编辑器
+$('#elm5').xheditor({skin:'nostyle',height:400});
+
+//打折
+if ($('#no').attr('checked')=='checked'){
+	$('input[id="num"]').attr('disabled','disabled').val(0);
+}
+$('input:radio').click(function(){
+	if ($(this).attr('id')=='no'){
+		$('input[id="num"]').attr('disabled','disabled').val(0);
+	}else{
+		$('input[id="num"]').removeAttr('disabled').val($('input[id="num"]').attr('class'));
+	}
+})
+
+
+//添加相片
+$('a[name=addpic]').click(function(){
+	$(this).after('<br/><input type="file" name="goods_pics[]"/>');
+})
+
+//删除相片
+$('.delpic').click(function(){
+	id = $(this).attr('id');
+	picname = $(this).attr('name');
+	if (confirm('点击确定后,该图片将永久删除 是否继续')){
+		$.post('__URL__/delpic',{id:id,picname:picname});
+		$(this).parent().remove();
+	}
+})
+
+//表单验证
+$('form').submit(function(){
+	isok = $('[name=submitStatus]').val();
+		$('.inp').each(function(){
+			if ($(this).val()==''){
+				name = $(this).attr('name');
+				if ((name != 'goods_num') && (name != 'market_price')){
+					$(this).after('<img src="__PUBLIC__/images/formimg/onError.gif"/>');	
+					isok = false;
+				}
+			}
+		})
+
+	if (!isok){
+		alert('请仔细填写');
+		$('[name=submitStatus]').val(false);
+	}
+	return isok;
+})
+})
+</script>
+<literal>
+<script type="text/javascript">
+$(pageInit);
+var editor;
+function pageInit()
+{
+	var url = $('#upurl').get(0).value;
+	$.extend(xheditor.settings,{shortcuts:{'ctrl+enter':submitForm}});
+	editor = $('#elm6').xheditor({height:400,upLinkUrl:url,upLinkExt:"zip,rar,txt",upImgUrl:url,upImgExt:"jpg,jpeg,gif,png",onUpload:''});
+}
+
+function submitForm(){
+	$('#myform').submit();
+}
+</script>
+</head>
+<style type="text/css">
+#main .search{width:98%; height:30px; line-height:30px; border: 1px solid #BBDDE5; background:#F4FAFB; margin-top:2px;}
+img{vertical-align:middle}
+.info{color:#666666}
+select,input{font-size:12px}
+td{ border:1px solid #EEF8F9}
+</style>
+<body>
+<div id="main">
+	<div class="title">商品管理</div>
+	<div class="content">
+    <span>
+<form action="__URL__/adddata" method="post" name="myform" enctype="multipart/form-data">
+  <table width="98%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td height="30" colspan="2" class="tit">新增商品</td>
+        </tr>
+      <tr>
+        <td width="13%" height="30" align="right" valign="middle">商品名称：</td>
+        <td width="87%" height="30" align="left"><input name="goods_name" type="text" class="inp" value="{$list.goods_name|default=''}"/></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">商品货号：</td>
+        <td height="30" align="left"><if condition="$list.goods_num eq ''"><input type="text" name="goods_num" class="inp" value="{$list.goods_num|default=''}"/><else/><input type="text" class="inp" value="{$list.goods_num|default=''}" disabled="disabled" style="color:#666666"/></if><br/>
+          <span class="info">如果您不输入商品货号，系统将自动生成一个唯一的货号。默认格式为:YWT123456</span></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">商品分类：</td>
+        <td height="30" align="left">
+		<select name="goods_class" class="inp">
+          <option value="">请选择..</option>
+		  <volist name="cate" id="vo">
+		  <option <php>echo ($list['goods_class']==$vo['name']) ? 'selected=selected' : ''</php> value="{$vo.name}" >
+		  <php>
+		  	for($i=1; $i<$vo['count']; $i++){
+				echo '&nbsp;&nbsp;&nbsp;';
+			}		  </php>
+		  	{$vo.name}</option>
+		  </volist>
+        </select>		</td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">市场价格：</td>
+        <td height="30" align="left"><input type="text" name="market_price" class="inp" style="width:180" value="{$list.market_price|default=''}"/>￥<span class="info">选填</span></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">本店价格：</td>
+        <td height="30" align="left"><input type="text" name="shop_price" class="inp" style="width:180" value="{$list.shop_price|default=''}"/>￥<span class="info">默认保留小数后两位,例如2600或267.55</span></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">打折： </td>
+        <td height="30" align="left"><input name="goods_dz" type="radio" id="no" value="0" 
+          <php>echo ($list['goods_dz'] ==0) ? 'checked="checked"' : ''</php>/>
+        不打折&nbsp;|
+        <input type="radio" name="goods_dz" id="yes" <php>echo ($list['goods_dz'] !=0) ? 'checked=checked' : ''</php> />打<input type="text" name="goods_dz" class="{$list.goods_dz}" style="width:30px" value="{$list.goods_dz|default=0}" maxlength="3" id="num"/>
+        折<Br/>
+		  <span class="info">*注 选择打折以后,会将本店价格再次打折,并且该产品会以打折后的价格出售</span></td>
+      </tr>
+      <tr><!--<textarea name="goods_desc" cols="100" rows="12" id="elm1">{$list.goods_desc|default=''}</textarea>-->
+        <td height="30" align="right" valign="middle">商品描述：﻿﻿﻿﻿﻿﻿</td>
+        <td height="30" align="left"><input type="hidden" id="upurl" value="__URL__/upfile"/><textarea cols="110" name="goods_desc" rows="10" id="elm6">{$list.goods_desc}</textarea></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">商品图片：</td>
+        <td height="30" align="left">
+		<php>
+			if ($list['goods_pics'] == ''){
+				echo '<input type="file" name="goods_pics[]"/>';
+			}else{
+				$pics = rtrim($list['goods_pics'],'-');
+				$pics = explode('-',$pics);
+				foreach($pics as $pic){
+					echo '<p style="width:724px; overflow:scroll"><img src="__PUBLIC__/Uploads/goods/'.$pic.'" title="'.$list['goods_name'].'"/><BR/><a href="javascript:void(0)" id="'.$list['id'].'" name="'.$pic.'" class="delpic">删除</a></p>';
+				}
+			}		</php>
+		<a href="javascript:void(0)" name="addpic">继续添加</a></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="middle">库存：</td>
+        <td height="30" align="left"><input type="text" name="goods_nums" style="width:100; height:20px;" value="{$list.goods_nums|default=''}"/>
+		<select name="dw">
+			<volist name="dw" id="vo">
+				<option value="{$vo}">{$vo}</option>
+			</volist>
+		</select>		</td>
+      </tr>
+       <tr>
+        <td height="30" align="right" valign="middle">上架时间</td>
+        <td height="30" align="left"><if condition="$list.goods_addtime eq ''"><input type="text" name="goods_addtime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="inp"><else/><input type="text" name="goods_addtime" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" class="inp" value="{$list.goods_addtime|date='Y-m-d H:i:s',###}"></if></td>
+      </tr>    
+	  <tr>
+        <td height="30" align="right" valign="middle">&nbsp;</td>
+        <td height="30" align="left"><input type="submit" value="保存"/>&nbsp;<input type="button" 
+
+value="返回上一步" onClick="javascript:history.back()"/></td>
+      </tr>
+      <tr>
+        <td height="30" colspan="2">&nbsp;</td>
+      </tr>
+    </table>
+	<input type="hidden" name="submitStatus" value="true"/>
+	<if condition="$list.id neq ''"><input type="hidden" name="id" value="{$list.id}"/>
+		<input type="hidden" name="act" value="edit"/>
+	</if>
+	</form>
+</span>
+	</div>
+</div>
+</body>
+</html>
+
