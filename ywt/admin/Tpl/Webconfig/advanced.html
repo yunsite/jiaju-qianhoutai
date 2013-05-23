@@ -1,0 +1,78 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script>
+$(function(){
+$('.editpic').click(function(){
+	$('#file').after('<br/><input type="file" name="weblogo"/><br/');
+})
+})
+</script>
+</head>
+<body>
+<div id="main">
+	<div class="title">高级配置</div>
+	<div class="content">
+<form method="post" action="{:U('addData')}" enctype="multipart/form-data">
+<div class="f"></div>
+  <table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td colspan="3" class="tit">网站高级配置</td>
+      </tr>
+    <tr>
+      <td align="center">网站名称:</td>
+      <td align="left"><input type="text" name="webname" class="inp" value="{$list.webname}"/></td>
+      <td align="left">给你的网站起个名儿吧</td>
+    </tr>
+    <tr>
+      <td align="center">网站标题:</td>
+      <td align="left"><input type="text" name="webtitle" class="inp" value="{$list.webtitle}"/></td>
+      <td align="left">设置好网站标题,让搜索引擎能够找到你,带来潜在客户</td>
+    </tr>
+    <tr>
+      <td width="207" align="center">网站LOGO:</td>
+      <td width="439" align="left"><if condition="$list eq ''"><input type="file" name="weblogo"/><else/><img src="__PUBLIC__/Uploads/weblogo/{$list.weblogo}"/><a href="javascript:void(0)" class="editpic">更换</a></if><span id="file"></span></td>
+      <td width="472" align="left">网站LOGO是整个网站的形象,建议上传哦</td>
+    </tr>
+    <tr>
+      <td align="center">网站关键字:</td>
+      <td align="left"><input name="webkeys" type="text" class="inp" style="width:400px" value="{$list.webkeys}"/></td>
+      <td align="left">给你网站取几个关键字,比如 &quot;网站建设\网站美化就在美誉网&quot; </td>
+    </tr>
+    
+    <tr>
+      <td align="center">网站描述:</td>
+      <td align="left"><textarea rows="3" cols="50" name="webdesc">{$list.webdesc}</textarea></td>
+      <td align="left">你怎么给客户和搜索引擎描述你的网站</td>
+    </tr>
+    <tr>
+      <td colspan="3" align="center"><input type="submit" value="保存"/>&nbsp;&nbsp;<input type="button" value="取消并返回" onClick="javascript:history.back()"/></td>
+    </tr>
+  </table>
+<input type="hidden" name="dredgetime" value="<php>echo time();</php>"/>
+<if condition="$list neq ''">
+<input type="hidden" name="act" value="edit"/>
+</if>
+</form>	
+
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">配置技巧</td>
+     </tr>
+	 <tr>
+	 	<td>√网站标题：优化网站标题，让搜索引擎认识你。就像交朋友一样，都有一个名字,网站也一样</td>
+	 </tr>
+	 	 <tr>
+	 	<td>√网站关键字：为什么要关键字? 关键字在SEO中相当重要, 你可以站在用户的角度上想 , 如果是我，我会怎么样去搜索 </td>
+	 </tr>
+	 	 <tr>
+	 	<td>√网站描述：你怎么给客户和搜索引擎描述你的网站</td>
+	 </tr>
+  </table>		
+	</div>
+</div>
+</body>
+</html>
+

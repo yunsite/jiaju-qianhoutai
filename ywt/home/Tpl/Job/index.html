@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config.webname}->贤聘纳士</title>
+<meta name="Keywords" content="{$config.webkeys}">
+<meta name="Description" content="{$config.webdesc}">
+<include file="./home/tpl/public/cssjs.html"/>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.lightbox').lightbox();
+	});
+	// 跟随屏幕滑动的在线咨询
+	$(document).ready(function(){
+		$( '#qq' ).scrollFollow();
+	});
+</script>
+</head>
+
+<body class="body_contact">
+<!--头部-->
+﻿<div id="headerbox">
+	<div id="top">
+    	<div class="top_link">
+      		<ul>
+				<li><a onclick="window.external.AddFavorite(location.href,document.title)" style="cursor:hand">加入收藏</a></li>
+        		<li><a href="__APP__">网站首页</a></li>
+      		</ul>
+    	</div>
+	</div>
+    <div id="navbox">
+        <div id="logo"><a href="/"><img src="__PUBLIC__/Uploads/weblogo/{$config.weblogo}" alt="{$config.webname}"/></a></div>
+        <div class="logo"></div>
+		<!--首页栏目-->
+			<div id="mainnavbox">	
+				<volist name="cate" id="vo">
+					<if condition="$vo.lmlogo neq ''">
+						<div class="navbox nav_5">
+							<ul>
+								<li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.name}"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67" alt="{$vo.name}"/></a></li>
+								<volist name="cate" id="vo2">
+									<php>
+										if ($vo['id'] == $vo2['pid']){
+											echo "<li><a href='".$vo2['url']."' title='".$vo2['name']."'>".$vo2['name']."</a></li>";
+										}									
+									</php>
+								</volist>
+							</ul>
+						</div>
+					</if>
+				</volist>
+    		</div>
+    </div>
+</div>
+<!--中间部分-->
+<div id="Flashbox"></div>
+<div class="subnav">
+	<ul>
+		<li class="index">您的当前位置：<a href="__APP__">网站首页</a><span>&gt;</span></li>
+		<li><a href="{:U('index')}">招贤纳士</a></li>
+	</ul>
+</div>
+<div id="content"></br>
+<if condition="$job eq ''">
+<include file="./home/tpl/public/nodata.html"/>
+<else/>
+<volist name="job" id="vo">
+	<p><img src="__PUBLIC__/Uploads/jobs/{$vo.job_pics}" title="{$vo.job_name}"/></p>
+</volist>
+<div class="yahoo2">{$page}</div>
+</if>
+
+</div>
+<!--页脚-->
+<include file="./home/tpl/public/foot.html"/>
+</body>
+</html>

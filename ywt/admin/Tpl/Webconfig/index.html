@@ -1,0 +1,126 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+</head>
+<body>
+<div id="main">
+	<div class="title">基本配置</div>
+	<div class="content">
+	<table width="98%" cellpadding="0" cellspacing="0" class="mytab">
+		<tr>
+			<td colspan="6" valign="top" class="tit">个人信息</td>
+	    </tr>
+		<tr>
+			<td width="7%" valign="top">姓名</td>
+		    <td width="15%" valign="top">{$Think.SESSION.name}</td>
+		    <td width="5%" valign="top"> 登录次数 </td>
+		    <td width="22%" valign="top">{$user.loginnums}<span style="font-size:8px; vertical-align:top">次</span></td>
+		    <td width="10%" valign="top">登录时间为</td>
+		    <td width="41%" valign="top">{$user.logintime|date='Y-m-d H:i:s',###}</td>
+		</tr>
+		<tr>
+		  <td valign="top">所属用户组</td>
+		  <td valign="top"><span style="color:red; font-weight:900">超级</span>管理员</td>
+		  <td valign="top">&nbsp;</td>
+		  <td valign="top"></td>
+		  <td valign="top">&nbsp;</td>
+		  <td valign="top">&nbsp;</td>
+	  </tr>
+	</table>
+	
+	<table width="98%" cellpadding="0" cellspacing="0" class="mytab">
+		<tr>
+			<td colspan="4" class="tit">留言信箱</td>
+        </tr>
+		<if condition="$lastmsg eq ''">
+		<tr>
+			<td colspan="4" align="center">暂时没有留言</td>
+	      </tr>
+		<else/>
+		<tr>
+			<td width="18%">您有<a href="{:U('msg/index?act/nread/allmsg/0')}"><strong>{$count}</strong></a>条未读留言</td>
+		    <td width="49%">最后一次留言：来源于 <strong>{$lastmsg.m_ip}</strong> | <strong>{$lastmsg.m_name}</strong> | <strong>{$lastmsg.m_time|date='y-m-d H:i:s',###}</strong></td>
+		    <td width="13%">共有留言<strong>{$allmsg}</strong>条</td>
+		    <td width="20%"><a href="{:U('msg/index')}">打开留言信箱</a></td>
+		</tr>		
+		</if>
+	</table>
+	<table width="98%" cellpadding="0" cellspacing="0" class="mytab">
+		<tr>
+			<td colspan="4" valign="top" class="tit">系统信息</td>
+	    </tr>
+		<tr>
+			<td width="19%" valign="top">服务器操作系统</td>
+		    <td width="32%" valign="top">{$Think.ENV.OS}</td>
+		    <td width="22%" valign="top">软件版本</td>
+		    <td width="27%" valign="top">{$Think.SERVER.SERVER_SOFTWARE}</td>
+		</tr>
+		<tr>
+		  <td valign="top">服务器协议</td>
+		  <td valign="top">{$Think.SERVER.SERVER_PROTOCOL}</td>
+		  <td valign="top">服务器名称</td>
+		  <td valign="top">{$Think.SERVER.SERVER_NAME}</td>
+	  </tr>
+		<tr>
+		  <td valign="top">网关接口</td>
+		  <td valign="top">{$Think.SERVER.GATEWAY_INTERFACE}</td>
+		  <td valign="top">服务器IP</td>
+		  <td valign="top">{$Think.SERVER.SERVER_ADDR}</td>
+	  </tr>
+		<tr>
+		  <td valign="top">Socket支持</td>
+		  <td valign="top">是</td>
+		  <td valign="top">时区设置</td>
+		  <td valign="top">中华人民共和国</td>
+	  </tr>
+		<tr>
+		  <td valign="top">是否开启文件上传</td>
+		  <td valign="top"><php>echo ini_get('file_uploads')</php>
+		    &nbsp;&nbsp;[1代表开启,0代表关闭]</td>
+		  <td valign="top">文件上传的最大大小</td>
+		  <td valign="top"><php>echo ini_get('upload_max_filesize')</php></td>
+	  </tr>
+		<tr>
+		  <td valign="top">编码</td>
+		  <td valign="top">UTF-8</td>
+		  <td valign="top">是否自动转义</td>
+		  <td valign="top"><php>echo ini_get('magic_quotes_gpc');</php></td>
+	  </tr>
+	</table>
+	<table width="98%" cellpadding="0" cellspacing="0" style="margin-top:10px;" class="mytab">
+		<tr>
+			<td colspan="6" valign="top" class="tit">网站高级配置<if condition="$list neq ''"><a href="{:U('advanced')}">[修改]</a></if></td>
+	    </tr>
+		<if condition="$list eq ''">
+		<tr>
+			<td style="text-align:center;" colspan="6">没有相应配置! <a href="{:U('advanced')}">[现在配置]</a></td>
+		</tr>
+		<else/>
+		<tr>
+			<td width="8%">网站名称：</td>
+			<td width="36%"><strong>{$list.webname}</strong></td>
+			<td width="11%">网站Logo</td>
+			<td width="45%"><img src="__PUBLIC__/Uploads/weblogo/s_{$list.weblogo}"/></td>
+		</tr>
+		<tr>
+			<td>网站标题：</td>
+			<td>{$list.webtitle}</td>
+			<td width="11%">开通时间：</td>
+			<td width="45%">{$list.dredgetime|date="Y-m-d H:i:s",###}</td>
+		</tr>
+		<tr>
+			<td colspan="4">关键字：{$list.webkeys}</td>
+			
+		</tr>
+		<tr>
+			<td colspan="4">网站描述：{$list.webdesc}</td>
+		  </tr>
+		</if>
+	</table>
+	
+	</div>
+</div>
+</body>
+</html>
+

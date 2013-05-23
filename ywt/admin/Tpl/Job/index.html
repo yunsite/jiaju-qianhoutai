@@ -1,0 +1,49 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<css href="__PUBLIC__/css/public.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+</head>
+<body>
+<div id="main">
+	<div class="title">招聘管理</div>
+	<div class="content">
+<span>
+<form method="post" action="{:U('addData')}">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" class="mytab">
+    <tr>
+      <td colspan="5" class="tit">招聘管理</td>
+      </tr>
+    <tr>
+      <td width="147" align="center">编号
+      <td width="165">职位名称</td>
+      <td width="480" align="left">缩略图</td>
+      <td width="192" align="left">添加时间</td>
+      <td width="113" align="left">操作</td>
+    </tr>
+<volist name="list" id="vo">	
+    <tr>
+      <td width="147" align="center">{$vo.id}</td>
+      <td width="165">{$vo.job_name}</td>
+      <td width="480" align="left"><img width="410" height="80" src="__PUBLIC__/Uploads/jobs/{$vo.job_pics}"/></td>
+      <td align="left">{$vo.add_time|date='Y-m-d:H:i:s',###}</td>
+      <td width="113" align="left"><a href="__URL__/addJob/id/{$vo.id}/act/edit"><img src="__PUBLIC__/images/icon_edit.gif" title="查看|编辑"/></a>&nbsp;<a href="__URL__/del/id/{$vo.id}/pics/{$vo.job_pics}/act/one"><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" onClick="return confirm('您确定要将它移到回收站吗')"/></a></td>
+    </tr>
+</volist>
+	<if condition="$list eq ''">
+	<tr><td align="center" colspan="5"><b>没有数据...</b></td></tr>
+	<else/>
+    <tr>
+      <td colspan="5" align="center"><div class="yahoo2">{$page}</div></td>
+      </tr>
+	</if>
+  </table>
+</form>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

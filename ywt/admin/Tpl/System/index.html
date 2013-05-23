@@ -1,0 +1,97 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script type="text/javascript">
+$(function(){
+$('[name=myform]').submit(function(){
+	var issub = true;
+	
+	//验证所有为空
+	$('input').each(function(){
+		if ($(this).val() == '') issub = false;
+	})
+	
+	if (issub){
+		//验证重复密码
+		if ($('[name="confirmpwd"]').val() != $('[name="newpwd"]').val()){
+			alert('重复密码不一致');
+			issub = false;
+		}	
+	}else{
+		alert('请认真填写');
+	}
+
+	return issub;
+})
+
+//验证码
+$('img.yzm').click(function(){
+	var id = $(this).attr('id');
+	$(this).attr('src',id+'?'+Math.random());
+})
+})
+</script>
+</head>
+<body>
+<div id="main">
+	<div class="title">系统设置</div>
+	<div class="content">
+<span>
+<form method="post" action="{:U('checkData')}" name="myform">
+ <table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+ <tr>
+ 	<td colspan="3" class="tit">修改密码</td>
+ </tr>
+    <tr>
+      <td width="8%">&nbsp;</td>
+      <td width="8%">账号</td>
+      <td width="84%">{$Think.SESSION.uname|msubstr=0,3,'utf-8',true}</td>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>旧密码</td>
+      <td><input type="password" name="oldpwd" size="26" class="inp"/></td>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>新密码</td>
+      <td><input type="password" name="newpwd" size="26" class="inp"/></td>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>确认密码</td>
+	  <td><input type="password" name="confirmpwd" size="26" class="inp"/></td>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>验证码</td>
+	  <td><input type="text" name="code" size="10" style="vertical-align:middle"/>
+	    <img src="__URL__/verify" class="yzm" id="__URL__/verify" style="vertical-align:middle"/></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td colspan="2"><input name="submit" type="submit" value="保存">
+        <input name="button" type="button" onClick="javascript:history.back()" value="返回上一步"/></td>
+    </tr>
+  </table>
+  <if condition="$list neq ''"><input type="hidden" name="act" value="edit"/><input type="hidden" name="id" value="{$list.id}"/></if>
+</form>
+<table width="98%" border="0" cellpadding="0" cellspacing="0" class="mytab">
+    <tr>
+      <td width="100%" class="tit">说明</td>
+     </tr>
+	 <tr>
+	 	<td>√ 系统密码建议用【数字、字母、下划线_】的组合 </td>
+	</tr>
+	<tr>
+		<td>√ 修改密码后,<a href="{:U('Login/outlogin')}" target="_parent">[重新登录]</a>方能生效 </td>
+	</tr>
+  </table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+

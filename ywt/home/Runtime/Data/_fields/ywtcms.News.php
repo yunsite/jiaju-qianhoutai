@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'news_tit', 2 => 'news_con', 3 => 'news_source', 4 => 'add_time', 5 => 'add_ip', 6 => 'news_class', 7 => 'newpics', 8 => 'news_djs', 9 => 'author', 10 => 'sh', 11 => 'tuij', 12 => 'isbold', '_autoinc' => true, '_pk' => 'id', ); ?>

@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config.webtitle}</title>
+<meta name="Keywords" content="{$config.webkeys}" />
+<meta name="Description" content="{$config.webdesc}" />
+<link href="__PUBLIC__/css/maincss.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/js/jquery.lightbox.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/jquery.min.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/SliderBG.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/jquery.lightbox.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/jquery.scrollfollow.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/png.js"></script>
+<script type="text/javascript" language="javascript" src="__PUBLIC__/js/jquery-ui-1.7.3.custom.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	alert('尊敬的ThinkPHP用户您好.感谢使用本产品\n 我们专注网站建设,网站改版,美容\n QQ:1798545970');
+	$('.lightbox').lightbox();
+	$('.new').hover(
+		function(){
+			$(this).addClass('hover');
+		},
+		function(){
+			$(this).removeClass('hover');
+		}
+	);
+
+	$('.show').mouseover(function(){
+			$(this).find("img").css('opacity',0.5);
+	}).mouseout(function(){
+			$(this).find("img").css('opacity',1.0);
+	});
+	//$( '#qq' ).scrollFollow();
+});
+</script>
+<style type="text/css">
+<!--
+.STYLE2 {font-size: 10px}
+ul.sty li{background:url(__PUBLIC__/images/list.png) no-repeat; padding-left:20px; height:30px; line-height:30px; background-position:0 6px; border-bottom:1px dotted #ccc}
+ul.sty a:link,ul.sty a:visited{color:#333333}
+ul.sty a:hover{color:#FF5E10}
+-->
+</style>
+</head>
+
+<body>
+<!--上面Flash广告图部分-->
+<div id="header">
+	<!--广告图轮放-->
+	<div id="headerimgs">
+		<div id="headerimg1" class="headerimg"></div>
+		<div id="headerimg2" class="headerimg"></div>
+	</div>
+    <!--LOGO及关于我们-->
+	﻿<div id="headerbox">
+  		<div id="top">
+            <div class="top_link">
+                <ul>
+				<li><a onclick="window.external.AddFavorite(location.href,document.title)" style="cursor:hand">加入收藏</a></li>
+        		<li><a href="__APP__">网站首页</a></li>
+                </ul>
+            </div>
+  		</div>
+  		<div id="navbox">
+        <div id="logo"><a href="/"><img src="__PUBLIC__/Uploads/weblogo/{$config.weblogo}" alt="{$config.webname}"/></a></div>
+        <div class="logo"></div>
+			<!--首页栏目-->
+
+			<div id="mainnavbox">	
+				<volist name="cate" id="vo">
+					<if condition="$vo.lmlogo neq ''">
+						<div class="navbox nav_5">
+							<ul>
+								<li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.name}"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67" alt="{$vo.name}"/></a></li>
+								<volist name="cate" id="vo2">
+									<php>
+										if ($vo['id'] == $vo2['pid']){
+											echo "<li><a href='".$vo2['url']."' title='".$vo2['name']."'>".$vo2['name']."</a></li>";
+										}									
+									</php>
+								</volist>
+							</ul>
+						</div>
+					</if>
+				</volist>
+    		</div>
+
+  		</div>
+	</div>
+    <!--播放按钮-->
+	<div id="headernav-outer">
+		<div id="headernav">
+			<div id="back" class="btn"></div>
+			<div id="control" class="btn"></div>
+			<div id="next" class="btn"></div>
+		</div>
+	</div>
+</div>
+<div class="con_bg">
+	<!--QQ邮件列表订阅嵌入代码-->
+	<div id="tools_bar">
+		<a href='http://wpa.qq.com/msgrd?V=1&amp;Uin={$qq.kf11}&amp;Menu=yes&amp;site= class="lightbox"'><img src="__PUBLIC__/images/onlinebg.jpg" /></a>
+    </div>
+    <!--最新资讯-->
+  	<div id="index_news">
+  		<div class="news_t"></div>
+		<div class="newsbox">
+			<dl class="new">
+				<dt><a href="{:U('Company/index')}#desc" target="_blank"><img src="__PUBLIC__/images/event1.jpg"/></a></dt>
+				<dd class="type">（公司）<span class="jquery-lightbox-mode-image">企业文化</span></dd>
+				<dd class="title"><a href="#" target="_blank">合作·从了解开始</a></dd>
+				<dd class="info">
+					<p>诚实是力量的一种象征，它显示着一个人的高度自重和内心的安全感与尊严感...<br /><br/><span class="show STYLE2">
+                    Honesty is a symbol of power, it shows the height of a person's weight and inner sense of security and the dignity ...
+                    </span><br />
+				</dd>
+		  	</dl>
+		    <dl class="new">
+				<dt><a href="{:U('Job/index')}" target="_blank"><img src="__PUBLIC__/images/event2.jpg" /></a></dt>
+				<dd class="type">（人才）招贤纳士</dd>
+				<dd class="title"><a href="job.html" target="_blank">加入我们</a></dd>
+				<dd class="info">
+					<p>敢于驾驭自己梦想的人 加入我们吧 一起并肩前行...<br />
+					  <br />
+					  <span class="STYLE2">Dare to control his dream to join us, you go side by side with...</span><br />
+					  </p>
+				</dd>
+				<dd class="date">&nbsp;</dd>
+		    </dl>
+		  	<dl class="new">
+				<dt><a href="{:U('News/index')}#news" target="_blank"><img src="__PUBLIC__/images/event3.jpg" /></a></dt>
+				<dd class="type">（网站）新闻动态</dd>
+				<dd class="title"><a href="#" target="_blank">站内·娱乐·新闻·视野</a></dd>
+				<dd class="info">
+			  		<p>让你随时随地掌握身边发生 的事情...<br />
+			  		<br />
+			  		<span class="STYLE2">Let you anytime and anywhere around to what happened...</span><br />
+			  		</p>
+				</dd>
+				<dd class="date">&nbsp;</dd>
+	  		</dl>
+			<dl class="new">
+				<dt><a href="{:U('News/index')}#news" target="_blank"><img src="__PUBLIC__/images/event4.jpg" /></a></dt>
+				<dd class="type">（行业）最新资讯</dd>
+				<dd class="title"><a href="#" target="_blank">行业资讯</a></dd>
+				<dd class="info">
+			  	  <p>了解我们行业的最新资讯<br />
+				  <br />
+				  <span class="STYLE2">The latest information about our industry...</span><br />
+				  </p>
+				</dd>
+			</dl>			
+	  	<br />
+      	<br />
+		</div>
+  	</div>
+</div><br />
+<!--家装案例-->
+<div class="showlist xz_show">
+	<div class="line"><img src="__PUBLIC__/images/left_line.jpg" /></div>
+	<div class="typenav2"></div>	
+	<!--促销商品-->
+	<volist name="dzgoods" id="vo">
+		<dl class="show" style="height:280px;">
+			<dt><a href="{:U('Goods/showGoods?gid='.$vo['id'].'')}"><img src="__PUBLIC__/Uploads/goods/{$vo.goods_pics}"  class="image"/></a></dt>
+			  <dd><span>{$vo.goods_name}<br/>{$vo.goods_dz}折&nbsp;&nbsp;￥<strong style="color:red">{$vo.goods_dzh}</strong></span><small></small></dd>
+		</dl>
+	</volist>
+</div>
+<!--最新上价商品-->
+<div class="showlist hs_show">
+	<div class="line"><img src="__PUBLIC__/images/left_line.jpg" /></div>
+	<div class="typenav2"></div>	
+	<volist name="newgoods" id="vo">
+		<dl class="show">
+			<dt><a href="{:U('Goods/showGoods?gid='.$vo['id'].'')}"><img src="__PUBLIC__/Uploads/goods/{$vo.goods_pics}"  class="image"/></a></dt>
+			  <dd><span>{$vo.goods_name}</span><small></small></dd>
+		</dl>
+	</volist>
+</div>
+<div style="width:960px; overflow:auto; margin:5px auto;">
+<p><img src="__PUBLIC__/images/map.png" width="350px"/><img src="__PUBLIC__/images/cpzs.png" width="610" height="66"/></p>
+<div style="float:left; width:350px; height:340px;"><include file="./home/Tpl/public/map.html"/></div>
+<div style="float:left">
+	<ul class="sty" style="list-style:none;background:#fff; height:330px; width:500px; padding:10px; padding-left:100px">
+	<volist name="zs" id="vo">
+		<li><a href="{:U('News/showNews?nid='.$vo['id'].'')}" target="_blank">&nbsp;&nbsp;[{$vo.add_time|date='Y-m-d',###}]&nbsp;&nbsp;{$vo.news_tit}..</a></li>
+	</volist>
+	</ul>
+</div>
+</div>
+
+
+<!--FQA-->
+
+<!--页脚-->
+<include file="./home/tpl/public/foot.html"/>
+</div>
+</body>
+</html>

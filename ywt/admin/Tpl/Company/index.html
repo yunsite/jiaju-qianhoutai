@@ -1,0 +1,102 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script>
+$(function(){
+	$('select[name=class]').change(function(){
+		if ($(this).val()=='自定义'){
+			$(this).after('<input type="text" name="class" value="请填写行业类别"/>');
+		}else{
+			$('input[name=class]').remove();
+		}
+	})
+	
+	$('.edit').click(function(){
+		$('span').each(function(){
+			var value = $(this).text();
+			var name = $(this).attr('name');
+			if ((name=='qywh') || (name=='desc') || (name=='copyright')){
+				$(this).after('<textarea rows="6" cols="50" name="'+name+'">'+value+'</textarea>');
+			}else{
+				$(this).after('<input type="text" name="'+name+'" value="'+value+'" class="inp"/>');
+			}
+			$(this).remove();
+		})
+		
+	})
+})
+</script>
+</head>
+<body>
+<div id="main">
+	<div class="title">公司管理</div>
+	<div class="content">
+<form method="post" action="{:U('addData')}">
+  <table width="98%" border="0" cellspacing="0" cellpadding="0" class="mytab">
+    <tr>
+      <td colspan="3" class="tit">基本设置<if condition="$list neq ''"><a href="javascript:void(0)" class="edit">[修改]</a></if></td>
+      </tr>
+    <tr>
+      <td width="189" align="center">公司名称
+      <td width="579"><if condition="$list.name neq ''"><span name="name"><strong>{$list.name}</strong></span><else/><input type="text" name="name" class="inp"/></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">所属行业</td>
+      <td width="579"> 
+	  <if condition="$list.class eq ''">
+	  <select name="class">
+		<volist name="arr" id="vo">
+			<option value="{$vo}" >{$vo}</option>	
+		</volist>
+	  </select><else/>
+	  <select name="class">
+		<volist name="arr" id="vo">
+			<option value="{$vo}" >{$vo}</option>	
+		</volist>
+			<option value="{$list.class}" selected="selected">{$list.class}</option>
+	  </select>
+	  </if>	  </td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">公司地址</td>
+      <td width="579"><if condition="$list.address neq ''"><span name="address">{$list.address}</span><else/><input type="text" name="address" class="inp"/></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">企业文化</td>
+      <td width="579"><if condition="$list.qywh neq ''"><span name="qywh">{$list.qywh}</span><else/><textarea rows="6" cols="50" name="qywh">{$list.qywh}</textarea></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    
+    <tr>
+      <td width="189" align="center">联系电话</td>
+      <td width="579"><if condition="$list.tel neq ''"><span name="tel">{$list.tel}</span><else/><input type="text" name="tel" class="inp"/></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">邮箱</td>
+      <td width="579"><if condition="$list.email neq ''"><span name="email">{$list.email}</span><else/><input type="text" name="email" class="inp"/></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189" align="center">版权信息及其他</td>
+      <td width="579"><if condition="$list.qywh neq ''"><span name="copyright">{$list.copyright}<else/><textarea rows="6" cols="50" name="copyright"></textarea></if></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="189">&nbsp;</td>
+      <td width="579"><input name="submit" type="submit" class="sub" value="保存"/>&nbsp;
+        <input name="button" type="button" onClick="javascript:history.back()" value="返回上一步"/></td>
+      <td width="350" align="left">&nbsp;</td>
+    </tr>
+  </table>
+</form>
+	</div>
+</div>
+</body>
+</html>
+

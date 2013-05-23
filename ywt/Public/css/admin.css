@@ -1,0 +1,23 @@
+/*后台页面之right样式*/
+/*共用分页样式*/
+@import "public.css";
+body,select,input{font-size:12px;}
+table,ul,li,tr,td,form,body{margin:0; padding:0}
+li{list-style:none}
+a{text-decoration:none}
+a:link,a:visited{color:blue;}
+
+input.inp{width:300px; border:1px solid #BBDDE5; height:26px; line-height:26px; }
+textarea,select{border:1px solid #BBDDE5}
+#main{ width:98%; border:1px solid #9DAFB9; background:#DDEEF2; height:1500px; overflow:auto }
+#main .title{height:31px; line-height:30px; background:url(../images/main_top.jpg); padding-left:6px; }
+
+#main .content{padding:10px; padding-top:0; background:#DDEEF2;}
+
+table{font-size:12px; border:1px solid #BBDDE5; background:#fff; padding:1px; margin:0; margin-top:10px;}
+.mytab td{height:30px; line-height:30px; border:1px solid #EEF8F9}
+
+td.tit{width:90%; height:26px; line-height:26px; background:#BBDDE5; padding-left:6px;}
+strong{font-size:12px; color:blue; font-weight:bold; margin:0 2;}
+
+a img{border:0;}

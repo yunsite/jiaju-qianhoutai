@@ -1,0 +1,6 @@
+/* CSS Document */
+.onShow{background:url(../images/formimg/onShow.gif) no-repeat; padding-left:20px;}
+.onSuccess{background:url(../images/formimg/onSuccess.gif) no-repeat; padding-left:20px;}
+.onError{background:url(../images/formimg/onError.gif) no-repeat; padding-left:20px;}
+.onFocus{background:url(../images/formimg/onFocus.gif) no-repeat; padding-left:20px; color:#000000;}
+

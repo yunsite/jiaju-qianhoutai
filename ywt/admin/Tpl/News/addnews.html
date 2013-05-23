@@ -1,0 +1,127 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<script src="__PUBLIC__/xheditor/xheditor-1.1.14-zh-cn.min.js"></script>
+<script>
+$(function(){
+	$('[name=news_class]').change(function(){
+		var value = $(this).val();
+		if (value == '其他'){
+			$(this).after('<input type="text" name="news_class"/>');
+		}else{
+			$('input[name=news_class]').remove();
+		}
+	})
+})
+</script>
+<literal>
+<script type="text/javascript">
+$(pageInit);
+var editor;
+function pageInit()
+{
+	var url = $('#upurl').get(0).value;
+	$.extend(xheditor.settings,{shortcuts:{'ctrl+enter':submitForm}});
+	editor = $('#elm6').xheditor({height:400,upLinkUrl:url,upLinkExt:"zip,rar,txt",upImgUrl:url,upImgExt:"jpg,jpeg,gif,png",onUpload:''});
+}
+
+function submitForm(){
+	$('#myform').submit();
+}
+</script>
+</literal>
+<style type="text/css">
+input.inp {color:#3366cc; padding-left:4px; font-size:12px;}
+input.noedit{background:#fff; color:#888}
+td{ border:1px solid #EEF8F9}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">新闻管理</div>
+	<div class="content">
+<form action="__URL__/adddata" method="post" enctype="multipart/form-data">
+  <table width="98%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td height="30" colspan="2" class="tit">编缉新闻</td>
+        </tr>
+      <tr>
+        <td width="10%" height="30" align="right">所属栏目：</td>
+        <td width="90%" height="30" align="left"><select name="news_class">
+		<option value="站内新闻">站内新闻</option>
+		<option value="行业资讯">行业资讯</option>
+		<option value="产品知识">产品知识</option>
+		<option value="娱乐新闻">娱乐新闻</option>
+		<if condition="$list.news_class neq ''">
+		<option value="{$list.news_class}" selected="selected">
+			{$list.news_class}</option>
+		</if>
+		<option value="其他">其他</option>
+		</select></td>
+      </tr>
+      <tr>
+        <td height="30" align="right">新闻标题：</td>
+        <td height="30" align="left"><input type="text" name="news_tit" class="inp" value="{$list.news_tit}"/><input type="checkbox" <php>echo ($list['isbold']==1) ? 'checked=checked' : '';</php> name="isbold" value="1"/>加粗显示</td>
+      </tr>
+      <tr>
+        <td height="30" align="right">作者：</td>
+        <td height="30" align="left"><input name="author" type="text" class="inp" value="{$list.author|default='管理员'}"/></td>
+      </tr>
+      <tr>
+        <td height="30" align="right">来源：</td>
+        <td height="30" align="left"><input type="text" name="news_source" class="inp" value="{$list.news_source|default='原创'}"/></td>
+      </tr>
+      <tr>
+        <td height="30" align="right" valign="top">新闻内容：</td>
+        <input type="hidden" id='upurl' value="__URL__/upfile" />
+        <td height="30" align="left" style="height:20px; line-height:20px;"><textarea id="elm6" name="news_con" rows="12" cols="110">{$list.news_con}</textarea></td>
+      </tr>
+      <tr>
+        <td height="30" align="right">添加时间：</td>
+        <td height="30" align="left"><input type="text" class="inp noedit" value="{$list.show_time}" disabled="disabled"/><input type="hidden" name="add_time"/></td>
+      </tr>
+      <tr>
+        <td height="30" align="right">添加ip：</td>
+        <td height="30" align="left"><input type="text" class="inp noedit" value="{$list.add_ip}" disabled="disabled"/><input type="hidden" name="add_ip"/></td>
+      </tr>
+      <tr>
+        <td height="30" align="right">发布时间：</td>
+        <td height="30" align="left"><input type="radio" name="sh" value="1" 
+          <php>echo ($list['sh']
+
+==1) ? 'checked=checked' : '';</php> />即时发布&nbsp;
+		<input type="radio" name="sh" value="0" <php>echo ($list['sh']==0) ? 
+
+'checked=checked' : '';</php> />暂不发布</td>
+      </tr>
+       <tr>
+        <td height="30" align="right">是否推荐：</td>
+        <td height="30" align="left"><input type="radio" name="tuij" value="1" 
+          <php>echo ($list
+
+['tuij']==1) ? 'checked=checked' : '';</php>/>推荐
+		<input type="radio" name="tuij" value="0" <php>echo ($list['tuij']==0) ? 
+
+'checked=checked' : '';</php>/>一般</td>
+      </tr>    
+	  <tr>
+        <td height="30" align="right">&nbsp;</td>
+        <td height="30" align="left"><input type="submit" value="保存"/>&nbsp;<input type="button" 
+
+value="返回上一步" onClick="javascript:history.back()"/></td>
+      </tr>
+      <tr>
+        <td height="30" colspan="2">&nbsp;</td>
+      </tr>
+    </table>
+	<input type="hidden" name="action" value="{$list.action}"/>
+	<input type="hidden" name="nid" value="{$list.id}"/>
+	<input type="hidden" name="add_time" value="{$list.add_time}"/>
+</form>
+	</div>
+</div>
+</body>
+</html>
+

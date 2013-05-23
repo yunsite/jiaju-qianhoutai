@@ -1,0 +1,46 @@
+<div id="footer">
+	<div class="footer_nav">
+		<div class="fnavbox fnav_1">
+			<ul>
+          		<li><a href="{:U('Company/index')}#map">联系方式</a></li>
+				<li><a href="{:U('Company/index')}#map">关于我们</a></li>
+			</ul>
+		</div>
+		<div class="fnavbox fnav_2">
+			<ul>
+				<li><a href="{:U('Company/index')}#desc">公司介绍</a></li>
+                <li><a href="{:U('Company/index')}#yuangong">员工风采</a></li>
+           		<li><a href="{:U('Company/index')}#map">公司地图</a></li>
+            </ul>
+		</div>
+		<div class="fnavbox fnav_3">
+			<ul>
+				<li><a href="{:U('Goods/index')}#goods">产品展示</a></li>
+				<li><a href="{:U('Goods/index')}#goods">最新上架</a></li>
+			</ul>
+		</div>
+		<div class="fnavbox fnav_4">
+			<ul>
+          		<li><a href="{:U('News/index')}#news">新闻中心</a></li>
+				<li><a href="{:U('News/index')}#news">热点新闻</a></li>
+			</ul>
+		</div>
+		<div class="fnavbox fnav_5">
+			<ul>
+              	<li><a href="{:U('Msg/index')}#msg">快速留言</a></li>
+			</ul>
+		</div>	
+	</div>
+	<div class="footer_1"><a href='http://wpa.qq.com/msgrd?V=1&amp;Uin={$qq.kf11}&amp;Menu=yes&amp;site= class="lightbox"'><img src="__PUBLIC__/images/footer_online.jpg"></a></div>
+	<div class="links">
+        <span style="color:#474747">友情链接：
+			<volist name="link" id="vo">
+				<a href="{$vo.l_url}" target="_blank" style="margin:1px"><img src="__PUBLIC__/Uploads/links/s_{$vo.l_logo}" title="{$vo.l_name}" /></a>
+			</volist>	
+		</span> 	
+    </div>
+    <div style=" height:22px; line-height:22px; margin:0 auto; width:890px; color:#999; text-align:center">
+ {$company.copyright}
+	</div>
+    <div style="display:none"></div>
+</div>

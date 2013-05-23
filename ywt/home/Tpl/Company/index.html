@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$config.webname}->公司简介</title>
+<meta name="Keywords" content="{$config.webkeys}">
+<meta name="Description" content="{$config.webdesc}">
+<include file="./home/tpl/public/cssjs.html"/>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery('.lightbox').lightbox();
+	});
+	// 跟随屏幕滑动的在线咨询
+	$(document).ready(function(){
+		$( '#qq' ).scrollFollow();
+	});
+</script>
+
+</head>
+
+<body class="body_about">
+<!--头部-->
+﻿<div id="headerbox">
+	<div id="top">
+    	<div class="top_link">
+      		<ul>
+				<li><a onclick="window.external.AddFavorite(location.href,document.title)" style="cursor:hand">加入收藏</a></li>
+        		<li><a href="__APP__">网站首页</a></li>
+      		</ul>
+    	</div>
+	</div>
+    <div id="navbox">
+        <div id="logo"><a href="/"><img src="__PUBLIC__/Uploads/weblogo/{$config.weblogo}" alt="{$config.webname}"/></a></div>
+        <div class="logo"></div>
+		<!--首页栏目-->
+			<div id="mainnavbox">	
+				<volist name="cate" id="vo">
+					<if condition="$vo.lmlogo neq ''">
+						<div class="navbox nav_5">
+							<ul>
+								<li><a href="{$vo.url}" target="{$vo.target}" title="{$vo.name}"><img src="__PUBLIC__/Uploads/lmlogo/{$vo.lmlogo}" width="112" height="67" alt="{$vo.name}"/></a></li>
+								<volist name="cate" id="vo2">
+									<php>
+										if ($vo['id'] == $vo2['pid']){
+											echo "<li><a href='".$vo2['url']."' title='".$vo2['name']."'>".$vo2['name']."</a></li>";
+										}									
+									</php>
+								</volist>
+							</ul>
+						</div>
+					</if>
+				</volist>
+    		</div>
+    </div>
+	
+</div>
+
+<!--中间-->
+<div id="Flashbox"></div>
+<div class="subnav">
+	<ul>
+		<li class="index">您的当前位置：<a href="__APP__">网站首页</a><span>&gt;</span></li>
+		<li><a href="{:U('index')}">公司介绍</a></li>
+	</ul>
+</div>
+<div id="sb_title" class="sb_about">
+	<a name="desc"></a><h2>公司介绍</h2>
+</div>
+<div id="content">
+	<!--浮动QQ-->
+		<include file="./home/tpl/public/qq.html"/>
+		<div class="weibo1"></div>
+    </div>
+    <!--公司介绍-->
+	<div class="about_1" style="border:1px solid green; padding:10px; overflow:auto">
+			<if condition="$company.gspic neq ''"><php>
+				$imgs = explode('-',$company['gspic']);	
+				$count = count($imgs)-2;
+				$img = $imgs[rand(0,$count)];
+				echo '<img src="__PUBLIC__/Uploads/gspic/s_'.$img.'" style="width:200px; height:200px; float:left; margin-right:10px;"/>';
+			</php></if><div style="line-height:26px; text-indent:2em">{$company.desc}</div>
+	</div>
+	<div class="about_2" style="margin-top:10px;"><a name="desc"></a>
+	<!--公司相册-->
+	<if condition="$company.gspic neq ''">
+	<p style="background:#99cc99; height:25px; line-height:25px">&nbsp;&nbsp;公司相册</p>
+	<php>
+		$pics = rtrim($company['gspic'],'-');
+		$pics = explode('-',$pics);
+		foreach($pics as $pic){
+			echo '<img src="__PUBLIC__/Uploads/gspic/s_'.$pic.'" width="226" height="200" style="border:2px solid #99cc99; margin:10px 10px 0 0; display:inline"/>';
+		}	
+		</php>	
+	</if>
+	</div>
+	<div class="about_2" style="margin-top:10px;"><a name="yuangong"></a>
+	<!--员工风采-->
+	<if condition="$company.ygpic neq ''">
+	<p style="background:#99ccff; height:25px; line-height:25px">&nbsp;&nbsp;员工风采</p>
+	<php>
+		$pics = rtrim($company['ygpic'],'-');
+		$pics = explode('-',$pics);
+		foreach($pics as $pic){
+			echo '<img src="__PUBLIC__/Uploads/ygpic/s_'.$pic.'" width="226" height="300" style="border:2px solid #99ccff; margin:10px 10px 0 0; display:inline"/>';
+		}	
+		</php>	
+	</if>
+	</div>
+	<!--公司荣誉-->
+	<div class="about_3" style="margin-top:10px;">
+	<if condition="$company.honour neq ''">
+	<p style="background:#669999; height:25px; line-height:25px">&nbsp;&nbsp;公司荣誉</p>
+	<php>
+		$pics = rtrim($company['honour'],'-');
+		$pics = explode('-',$pics);
+		foreach($pics as $pic){
+			echo '<img src="__PUBLIC__/Uploads/rypic/s_'.$pic.'" width="226" height="200" style="border:2px solid #669999; margin:10px 10px 0 0; display:inline"/>';
+		}	
+		</php>
+	</if>
+	</div>
+	
+	<!--地图-->
+	
+	<div style="margin-top:40px; width:960px; overflow:auto;"><a name="map"></a>
+	<p style="background:#cccccc; height:25px; line-height:25px">&nbsp;&nbsp;公司地图 And 关于我们</p>
+	<div style="float:left">
+		<div style="width:650px; height:300px;"><include file="./home/Tpl/public/map.html"/></div>
+	</div>
+	<div style="width:280px; height:250px; background:red; float:right; padding-top:50px; padding-left:20px; background:url(__PUBLIC__/images/lianxi.jpg) no-repeat; background-position:bottom">
+		<h1 style="font-size:20px;">{$company.name}</h1>
+		<ul style="margin-top:4px;">
+			<li style="line-height:22px;"><p style="line-height:26px;">{$company.gywm}</p></li>
+		</ul>
+	</div>
+	</div>
+	
+</div>
+<!--页脚-->
+<include file="./home/tpl/public/foot.html"/>
+</body>
+</html>

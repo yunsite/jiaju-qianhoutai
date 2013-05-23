@@ -1,0 +1,2 @@
+<?php
+return array ( 0 => 'id', 1 => 'goods_name', 2 => 'market_price', 3 => 'goods_num', 4 => 'shop_price', 5 => 'goods_dz', 6 => 'goods_dzh', 7 => 'goods_class', 8 => 'goods_pics', 9 => 'goods_desc', 10 => 'goods_addtime', 11 => 'goods_nums', '_autoinc' => true, '_pk' => 'id', ); ?>

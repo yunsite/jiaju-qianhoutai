@@ -1,0 +1,127 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<css href="__PUBLIC__/css/admin.css"/>
+<css href="__PUBLIC__/css/public.css"/>
+<js href="__PUBLIC__/js/jquery-1.7.1.js"/>
+<js href="__PUBLIC__/js/public.js"/>
+<script>
+$(function(){
+//重置条件
+$('input:reset').click(function(){
+	location.href="__URL__";
+})
+//快速转换已发布和未发布
+$('[name=fb]').click(function(){
+	var value = $(this).attr('class');
+	var id = $(this).attr('id');
+	$(this).removeClass();
+	if (value=='nfb'){
+		$(this).addClass('yfb').text('已发布');	
+		$.post('__URL__/fb',{id:id});
+	}else{
+		$(this).addClass('nfb').text('未发布');
+		$.post('__URL__/fb',{id:id});	
+	}
+})
+//用户批量删除时,得到所选所有ID,用,号连接发送到控制器
+$('[name=delall]').click(function(){
+	var ids = '';
+	nums = 0;
+	$('[name=del]').each(function(){	
+		if ($(this).attr('checked')=='checked'){
+			ids+=$(this).attr('id')+',';
+			nums = nums+1;
+		}		
+	})
+	
+	if (confirm('你确定要删除这 '+nums+' 条记录吗')){
+		location.href="__URL__/delNew?nid="+ids;
+	}	
+})
+})	
+</script>
+<style type="text/css">
+
+/*未发布 、已发布*/
+.nfb{color:#444; font-weight:900}	
+.yfb{color:green;}
+p{display:inline;margin:0; padding:0; color:red; font-weight:900}
+img{border:0}
+</style>
+</head>
+<body>
+<div id="main">
+	<div class="title">新闻管理</div>
+	<div class="content">
+<span>
+<table width="98%" border="0" align="center" cellpadding="0" cellspacing="0" class="mytab">
+  <tr>
+    <td colspan="8" class="tit">新闻浏览</td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td colspan="8" align="center">
+      <form action="__URL__" method="get">
+	  	按<select name="search_bzb">
+			<option <php>echo ($_GET['search_bzb']=='news_tit') ? 'selected=selected' : ""; </php> value="news_tit">标题</option>
+			<option <php>echo ($_GET['search_bzb']=='author') ? 'selected=selected' : ""; </php> value="author">作者</option>
+			<option <php>echo ($_GET['search_bzb']=='id') ? 'selected=selected' : ""; </php> value="id">编号</option>
+			<option <php>echo ($_GET['search_bzb']=='news_class') ? 'selected=selected' : ""; </php> value="news_class">新闻类别</option>
+		</select>
+		<input type="text" name="bzb" class="inp" value="{$Think.get.bzb}" style="width:200px;"/>
+		按<select name="search_tdb">
+			<option <php>echo ($_GET['search_tdb']=='add_time') ? 'selected=selected' : ""; </php> value="add_time">添加时间</option>
+			<option <php>echo ($_GET['search_tdb']=='news_djs') ? 'selected=selected' : ""; </php> value="news_djs">点击数</option>
+			<option <php>echo ($_GET['search_tdb']=='id') ? 'selected=selected' : ""; </php> value="id">编号</option>
+		</select>
+		<select name="order">
+			<option <php>echo ($_GET['order']=='desc') ? 'selected=selected' : ""; </php> value="desc">降序</option>
+			<option <php>echo ($_GET['order']=='asc') ? 'selected=selected' : ""; </php> value="asc">升序</option>
+		</select>
+		<select name="sh">
+			<option value="status">发布状态</option>
+			<option <php>echo ($_GET['sh']=='1') ? 'selected=selected' : ""; </php> value="1">已发布</option>		
+			<option <php>echo ($_GET['sh']=='0') ? 'selected=selected' : ""; </php> value="0">未发布</option>			
+		</select>
+		<input type="submit" name="search" value="查询"/>
+		<input type="reset" value="刷新\重置"/>
+	  </form>	  </td>
+    </tr>
+  <tr style="background:#E4EDED" id="h">
+    <td width="7%"><input type="checkbox" name="alldel"/>全选</td>
+    <td width="4%">编号</td>
+    <td width="39%">标题</td>
+    <td width="12%">创建时间</td>
+    <td width="8%">作者</td>
+    <td width="11%">状态</td>
+    <td width="8%" align="left">点击率</td>
+    <td width="11%">操作</td>
+  </tr>
+<if condition="$list neq ''">
+<volist name="list" id="vo"> 
+  <tr>
+    <td width="7%"><input type="checkbox" name="del" id="{$vo.id}"></td>
+    <td width="4%">{$vo.id}</td>
+    <td width="39%"><span style="color:#008000">[{$vo.news_class}]</span>&nbsp;<a href="{:U('addNews?nid=')}{$vo.id}/action/edit">{$vo.news_tit|msubstr=0,20,'utf-8',true|isbold=$vo['isbold']}</a>
+      <php>if($vo['tuij']==1)echo '<img src="__PUBLIC__/images/tj.gif"/>'</php></td>
+    <td width="12%">{$vo.add_time|date="Y-m-d H:i:s",###}</td>
+    <td width="8%">{$vo.author}</td>
+    <td width="11%"><php>echo ($vo['sh']==0) ?'<span class="nfb" name="fb" id="'.$vo['id'].'">未发布</span>' : '<span class="yfb" name="fb" id="'.$vo['id'].'">已发布</span>'</php></td>
+    <td width="8%" align="left">{$vo.news_djs}<span style="font-size:8px; vertical-align:top">次</span></td>
+    <td width="11%"><span><a href="{:U('addNews?nid=')}{$vo.id}/action/edit"><img src="__PUBLIC__/images/icon_edit.gif" title="查看|编辑"/></a>&nbsp;<a href="__URL__/delNew/nid/{$vo.id}"><img src="__PUBLIC__/images/icon_trash.gif" title="回收站" onClick="return confirm('您确定要将它移到回收站吗')"/></a></span></td>
+  </tr>
+</volist>
+  <tr>
+  	<td><input type="button" name="delall" value="批量删除" style="display:none"></td>
+  	<td colspan="7" align="center"><div class="yahoo2">{$page}</div></td>
+  </tr>
+<else/>
+<Tr align="center"><td colspan="8">没有查询到任何结果...</td></Tr>
+</if>
+</table>
+</span>
+	</div>
+</div>
+</body>
+</html>
+
